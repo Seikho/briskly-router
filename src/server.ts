@@ -4,6 +4,7 @@ import match = require('./match');
 import Types = require('../index.d.ts');
 import forms = require('formidable');
 import qs = require('querystring');
+
 export = server;
 
 var server = http.createServer();
@@ -35,14 +36,12 @@ var postHandler = (message: http.IncomingMessage, response: http.ServerResponse,
     var error = false;
     var parsed = parseUrl(message.url);
     var formParser = new forms.IncomingForm();
-    // Fetch callback for route
+        
+    var callback = (err, fields) => {
+        routeHandler.handler({ body: fields, path: parsed. path }, toReply(response));
+    }
     
-    formParser.parse(message, (err, fields, files) => {
-        routeHandler.handler({
-            body: fields,
-            path: parsed.path
-        }, toReply(response));
-    });
+    formParser.parse(message, callback);
 }
 
 function toReply(response: http.ServerResponse) {

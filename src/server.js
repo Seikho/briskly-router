@@ -25,13 +25,10 @@ var postHandler = function (message, response, routeHandler) {
     var error = false;
     var parsed = parseUrl(message.url);
     var formParser = new forms.IncomingForm();
-    // Fetch callback for route
-    formParser.parse(message, function (err, fields, files) {
-        routeHandler.handler({
-            body: fields,
-            path: parsed.path
-        }, toReply(response));
-    });
+    var callback = function (err, fields) {
+        routeHandler.handler({ body: fields, path: parsed.path }, toReply(response));
+    };
+    formParser.parse(message, callback);
 };
 function toReply(response) {
     var reply = function (data, statusCode) {
