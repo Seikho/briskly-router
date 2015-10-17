@@ -1,7 +1,7 @@
 {
   "name": "briskly-router",
-  "version": "1.0.0",
-  "description": "0.1.0",
+  "version": "0.1.0-pre",
+  "description": "briskly route handler",
   "main": "src/index",
   "scripts": {
     "test": "mocha",
