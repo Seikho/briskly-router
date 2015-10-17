@@ -11,16 +11,18 @@ export interface RouteHandler {
 }
 
 export interface Response {
-    query: any;
-    body: any;
+    query?: any;
+    body?: any;
+    path: string;
 }
 
 export interface Reply {
     (data: any, statusCode?: number)
+    file: (filePath: string) => void;
 }
 
 export interface Session {
-    
+
 }
 
 export interface RouteOptions {
