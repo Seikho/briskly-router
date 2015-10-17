@@ -5,7 +5,8 @@
   "main": "src/index",
   "scripts": {
     "test": "mocha",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node ./debug"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "typescript": "^1.6.2"
   },
   "dependencies": {
-    "briskly-json": "^0.1.0"
+    "briskly-json": "^0.1.0",
+    "ls-logger": "^0.3.0"
   }
 }
