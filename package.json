@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "briskly-json": "^0.1.1",
+    "formidable": "^1.0.17",
     "ls-logger": "^0.3.0"
   }
 }
