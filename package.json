@@ -29,7 +29,7 @@
     "typescript": "^1.6.2"
   },
   "dependencies": {
-    "briskly-json": "^0.1.0",
+    "briskly-json": "^0.1.1",
     "ls-logger": "^0.3.0"
   }
 }
