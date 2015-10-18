@@ -22,7 +22,7 @@ export interface Reply {
 }
 
 export interface Session {
-
+    [index: string]: any;
 }
 
 export interface RouteOptions {
