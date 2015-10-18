@@ -15,11 +15,11 @@ Parameter
  = LB w:Word t:Cast? RB { return { type:'parameter', part: w, cast: t } }
 
 Cast
- = _ DD _ t:CastType { return t }
+ = _ DD _ t:CastType _ { return t }
 
 CastType
- = "string" { return 'string' }
- / "number" { return 'number' }
+ = "string"
+ / "number"
 
 DD   = ":"
 Sep  = "/"
