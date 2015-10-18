@@ -34,3 +34,13 @@ export interface RouteOptions {
 export interface Callback {
     (error?: any, data?: any): void;
 }
+
+export interface RoutePart {
+    type: string;
+    cast?: string;
+    part: string;
+}
+
+export interface PegParser<T> {
+   parse(input: string): T; 
+}
