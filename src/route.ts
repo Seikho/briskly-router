@@ -9,5 +9,7 @@ function route(options: Types.RouteOptions) {
     if (!options.method) throw new Error(errors.NoMethod);
     if (!options.path) throw new Error(errors.NoPath);
     
+    if (options.path.slice(0,1) !== '/') options.path = '/' + options.path; 
+    
     routes.push(options);
 }
