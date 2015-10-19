@@ -1,11 +1,10 @@
+var routeParser = require('./parsers/route');
 var table = {};
 function add(route) {
 }
 exports.add = add;
 function toPath(path) {
-    var lastSlash = path.lastIndexOf('/') + 1;
-    var path = path.slice(0, lastSlash);
-    var end = path.slice(lastSlash);
+    var routeParts = routeParser(path);
 }
 exports.toPath = toPath;
 //# sourceMappingURL=table.js.map

@@ -1,5 +1,6 @@
 import routes = require('./routes');
 import Types = require('../index.d.ts');
+import routeParser = require('./parsers/route');
 
 var table: Table = {};
 
@@ -8,9 +9,8 @@ export function add(route: Types.RouteOptions) {
 }
 
 export function toPath(path: string) {
-    var lastSlash = path.lastIndexOf('/') + 1;
-    var path = path.slice(0, lastSlash);
-    var end = path.slice(lastSlash);
+    var routeParts = routeParser(path);
+    
 }
 
 interface Table {
@@ -20,6 +20,7 @@ interface Table {
 interface Route {
     name: string;
     route: Types.RouteOptions;
+    parts: Types.RoutePart[]
 }
 
 interface Path {
