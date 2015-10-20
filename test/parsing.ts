@@ -34,7 +34,6 @@ function testType(part: Types.Part, type: string, value: any): boolean {
     if (part.type !== type) {
         console.log(`Expected type '${type}'. Actual: '${part.type}'`);
         return false;
-
     }
 
     if (type === 'string' || type === 'number') {
@@ -42,6 +41,7 @@ function testType(part: Types.Part, type: string, value: any): boolean {
             console.log(`Expected value '${value}'. Actual: '${part.value}'`);
             return false;
         }
+        return true;
     }
 
     if (type === 'array') {
@@ -50,6 +50,7 @@ function testType(part: Types.Part, type: string, value: any): boolean {
             console.log(`Actual value: ${JSON.stringify(part.value) }`);
             return false;
         }
+        return true;
     }
 
     if (!objectsEqual(part.value, value)) {

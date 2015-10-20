@@ -33,6 +33,7 @@ function testType(part, type, value) {
             console.log("Expected value '" + value + "'. Actual: '" + part.value + "'");
             return false;
         }
+        return true;
     }
     if (type === 'array') {
         if (!arraysEqual(part.value, value)) {
@@ -40,6 +41,7 @@ function testType(part, type, value) {
             console.log("Actual value: " + JSON.stringify(part.value));
             return false;
         }
+        return true;
     }
     if (!objectsEqual(part.value, value)) {
         console.log("Expected value: " + JSON.stringify(value));
