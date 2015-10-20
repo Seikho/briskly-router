@@ -73,5 +73,7 @@ function getTypes(part: any) {
         part,
         types
     }
+    
+    return part;
 }
 

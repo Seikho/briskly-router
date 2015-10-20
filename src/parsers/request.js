@@ -64,6 +64,7 @@ function getTypes(part) {
         part: part,
         types: types
     };
+    return part;
 }
 module.exports = parse;
 //# sourceMappingURL=request.js.map
