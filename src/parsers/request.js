@@ -1,5 +1,7 @@
 function parse(request) {
-    var parts = request.split('/');
+    var qsMarker = request.indexOf('?');
+    var route = qsMarker === -1 ? request : request.slice(0, qsMarker);
+    var parts = route.split('/');
     return parts.map(getTypes);
 }
 function toNumber(input) {
