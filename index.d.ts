@@ -44,3 +44,9 @@ export interface RoutePart {
 export interface PegParser<T> {
    parse(input: string): T; 
 }
+
+export interface Part {
+    part: string;
+    type: string;
+    value: any;
+}

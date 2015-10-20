@@ -4,10 +4,13 @@ function parse(request) {
     var parts = route.slice(1).split('/');
     return parts.map(getTypes);
 }
-function toNumber(input) {
+function isNumber(input) {
     if (input === 'Infinity' || input === '-Infinity')
-        return null;
-    if (isNaN(input))
+        return false;
+    return !isNaN(input);
+}
+function toNumber(input) {
+    if (!isNumber)
         return null;
     return {
         type: 'number',
@@ -15,6 +18,8 @@ function toNumber(input) {
     };
 }
 function toString(input) {
+    if (isNumber(input))
+        return null;
     return {
         type: 'string',
         value: input
@@ -41,7 +46,7 @@ function toObject(input) {
             return null;
         if (value instanceof String)
             return null;
-        if (value instanceof Number)
+        if (isNumber(input))
             return null;
         return {
             type: 'object',
@@ -54,17 +59,14 @@ function toObject(input) {
 }
 var casters = [toString, toNumber, toArray, toObject];
 function getTypes(part) {
-    var types = casters.reduce(function (prev, curr) {
-        var type = curr(part);
-        if (!type)
+    var type = casters.reduce(function (prev, curr) {
+        if (typeof prev !== 'undefined')
             return prev;
-        return [type].concat(prev);
-    }, []);
-    var part = {
-        part: part,
-        types: types
-    };
-    return part;
+        var type = curr(part);
+        return type;
+    }, null);
+    type.part = part;
+    return type;
 }
 module.exports = parse;
 //# sourceMappingURL=request.js.map

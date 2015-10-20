@@ -9,9 +9,13 @@ function parse(request: string) {
     return parts.map(getTypes);
 }
 
+function isNumber(input: any) {
+    if (input === 'Infinity' || input === '-Infinity') return false;
+    return !isNaN(input);
+}
+
 function toNumber(input: any) {
-    if (input === 'Infinity' || input === '-Infinity') return null;
-    if (isNaN(input)) return null;
+    if (!isNumber) return null;
 
     return {
         type: 'number',
@@ -20,7 +24,7 @@ function toNumber(input: any) {
 }
 
 function toString(input: any) {
-
+    if (isNumber(input)) return null;
     return {
         type: 'string',
         value: input
@@ -46,7 +50,7 @@ function toObject(input: any) {
         var value = JSON.parse(input);
         if (value instanceof Array) return null;
         if (value instanceof String) return null;
-        if (value instanceof Number) return null;
+        if (isNumber(input)) return null;
         return {
             type: 'object',
             value
@@ -59,20 +63,16 @@ function toObject(input: any) {
 
 var casters = [toString, toNumber, toArray, toObject];
 
-function getTypes(part: any): Types.Part {
+function getTypes(part: string): Types.Part {
 
-    var types = casters.reduce((prev, curr) => {
+    var type = casters.reduce((prev, curr) => {
+        if (typeof prev !== 'undefined') return prev; 
+        
         var type = curr(part);
-        if (!type) return prev;
+        return type;
+    }, null);
 
-        return [type].concat(prev);
-    }, []);
-
-    var part: any = {
-        part,
-        types
-    }
-    
-    return part;
+    type.part = part;    
+    return type;
 }
 
