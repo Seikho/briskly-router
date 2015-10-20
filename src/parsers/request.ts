@@ -5,8 +5,7 @@ function parse(request: string) {
     var qsMarker = request.indexOf('?');
     var route = qsMarker === -1 ? request : request.slice(0, qsMarker);
     
-    var parts = route.split('/');
-
+    var parts = route.slice(1).split('/');
     return parts.map(getTypes);
 }
 
@@ -60,7 +59,7 @@ function toObject(input: any) {
 
 var casters = [toString, toNumber, toArray, toObject];
 
-function getTypes(part: any) {
+function getTypes(part: any): Types.Part {
 
     var types = casters.reduce((prev, curr) => {
         var type = curr(part);
