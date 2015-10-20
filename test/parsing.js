@@ -28,6 +28,11 @@ describe('request parsing', function () {
         testType(parts[0], 'string', 'first');
         testType(parts[1], 'string', 'second');
     });
+    it('will return two parts, string and number', function () {
+        var parts = request('/first/12345');
+        testType(parts[0], 'string', 'first');
+        testType(parts[1], 'number', 12345);
+    });
 });
 function testType(part, type, value) {
     expect(part.type).to.equal(type);

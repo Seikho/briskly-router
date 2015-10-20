@@ -35,6 +35,12 @@ describe('request parsing', () => {
         testType(parts[0], 'string', 'first');
         testType(parts[1], 'string', 'second');
     });
+    
+    it('will return two parts, string and number', () => {
+       var parts = request('/first/12345');
+       testType(parts[0], 'string', 'first');
+       testType(parts[1], 'number', 12345); 
+    });
 });
 
 function testType(part: Types.Part, type: string, value: any): void {
