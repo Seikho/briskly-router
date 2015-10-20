@@ -10,7 +10,7 @@ function isNumber(input) {
     return !isNaN(input);
 }
 function toNumber(input) {
-    if (!isNumber)
+    if (!isNumber(input))
         return null;
     return {
         type: 'number',
@@ -59,13 +59,20 @@ function toObject(input) {
 }
 var casters = [toString, toNumber, toArray, toObject];
 function getType(part) {
-    var type = casters.reduce(function (prev, curr) {
-        if (prev != null)
-            return prev;
-        return curr(part);
-    }, null);
-    type.part = part;
-    return type;
+    var addPart = function (returnPart) {
+        returnPart.part = part;
+        return returnPart;
+    };
+    var array = toArray(part);
+    if (array)
+        return addPart(array);
+    var object = toObject(part);
+    if (object)
+        return addPart(object);
+    var number = toNumber(part);
+    if (number != null)
+        return addPart(number);
+    return addPart(toString(part));
 }
 module.exports = parse;
 //# sourceMappingURL=request.js.map

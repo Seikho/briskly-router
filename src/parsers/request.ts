@@ -15,7 +15,7 @@ function isNumber(input: any) {
 }
 
 function toNumber(input: any) {
-    if (!isNumber) return null;
+    if (!isNumber(input)) return null;
 
     return {
         type: 'number',
@@ -25,6 +25,7 @@ function toNumber(input: any) {
 
 function toString(input: any) {
     if (isNumber(input)) return null;
+    
     return {
         type: 'string',
         value: input
@@ -64,13 +65,20 @@ function toObject(input: any) {
 var casters = [toString, toNumber, toArray, toObject];
 
 function getType(part: string): Types.Part {
-
-    var type = casters.reduce((prev, curr) => {
-        if (prev != null) return prev;         
-        return curr(part);
-    }, null);
-
-    type.part = part;    
-    return type;
+    var addPart = (returnPart: any) => {
+        returnPart.part = part;
+        return returnPart;
+    }
+    
+    var array = toArray(part);
+    if (array) return addPart(array);
+    
+    var object = toObject(part);
+    if (object) return addPart(object);
+    
+    var number = toNumber(part);
+    if (number != null) return addPart(number);
+    
+    return addPart(toString(part));
 }
 
