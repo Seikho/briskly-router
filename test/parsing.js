@@ -43,14 +43,4 @@ function testType(part, type, value) {
     if (type === 'object')
         expect(part.value).to.deep.equal(value);
 }
-function arraysEqual(left, right) {
-    return left.every(function (value, index) { return right[index] === value; });
-}
-function objectsEqual(left, right) {
-    var leftEqual = Object.keys(left)
-        .every(function (key) { return left[key] === right[key]; });
-    var rightEqual = Object.keys(right)
-        .every(function (key) { return right[key] === left[key]; });
-    return leftEqual && rightEqual;
-}
 //# sourceMappingURL=parsing.js.map

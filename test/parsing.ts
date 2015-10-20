@@ -54,17 +54,3 @@ function testType(part: Types.Part, type: string, value: any): void {
     if (type === 'object')
         expect(part.value).to.deep.equal(value);
 }
-
-function arraysEqual(left: any[], right: any[]) {
-    return left.every((value, index) => right[index] === value);
-}
-
-function objectsEqual(left: any, right: any) {
-    var leftEqual = Object.keys(left)
-        .every(key => left[key] === right[key]);
-
-    var rightEqual = Object.keys(right)
-        .every(key => right[key] === left[key]);
-
-    return leftEqual && rightEqual;
-}
