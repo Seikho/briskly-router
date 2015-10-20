@@ -2,7 +2,7 @@ function parse(request) {
     var qsMarker = request.indexOf('?');
     var route = qsMarker === -1 ? request : request.slice(0, qsMarker);
     var parts = route.slice(1).split('/');
-    return parts.map(getTypes);
+    return parts.map(getType);
 }
 function isNumber(input) {
     if (input === 'Infinity' || input === '-Infinity')
@@ -58,12 +58,11 @@ function toObject(input) {
     }
 }
 var casters = [toString, toNumber, toArray, toObject];
-function getTypes(part) {
+function getType(part) {
     var type = casters.reduce(function (prev, curr) {
-        if (typeof prev !== 'undefined')
+        if (prev != null)
             return prev;
-        var type = curr(part);
-        return type;
+        return curr(part);
     }, null);
     type.part = part;
     return type;
