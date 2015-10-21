@@ -45,7 +45,7 @@ export interface PegParser<T> {
    parse(input: string): T; 
 }
 
-export interface Part {
+export interface RequestPart {
     part: string;
     type: string;
     value: any;
