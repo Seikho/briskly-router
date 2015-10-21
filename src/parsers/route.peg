@@ -20,6 +20,9 @@ Cast
 CastType
  = "string"
  / "number"
+ / "array"
+ / "object"
+ / "any"
 
 DD   = ":"
 Sep  = "/"
