@@ -1,5 +1,6 @@
 var chai = require('chai');
 var request = require('../src/parsers/request');
+var route = require('../src/parsers/route');
 var expect = chai.expect;
 describe('request parsing', function () {
     it('will return a single string part', function () {
@@ -44,6 +45,35 @@ describe('request parsing', function () {
         testType(parts[1], 'object', { foo: 'bar', baz: [1, 2, 3] });
     });
 });
+describe('route parsing tests', function () {
+    describe('single part routes', function () {
+        it('will return a route type', function () {
+            var r = route('/normal-route');
+            testPart(r[0], 'route');
+        });
+        it('will return a string type', function () {
+            var r = route('/{param: string}');
+            testPart(r[0], 'parameter', 'string');
+        });
+        it('will return a number type', function () {
+            var r = route('/{param: number}');
+            testPart(r[0], 'parameter', 'number');
+        });
+        it('will return a array type', function () {
+            var r = route('/{param: array}');
+            testPart(r[0], 'parameter', 'array');
+        });
+        it('will return a object type', function () {
+            var r = route('/{param: object}');
+            testPart(r[0], 'parameter', 'object');
+        });
+    });
+});
+function testPart(part, type, cast) {
+    cast = cast || null;
+    expect(part.type).to.equal(type);
+    expect(part.cast).to.equal(cast);
+}
 function testType(part, type, value) {
     expect(part.type).to.equal(type);
     if (part.type === 'string' || part.type === 'number')

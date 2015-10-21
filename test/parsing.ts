@@ -1,6 +1,7 @@
 import Types = require('../index.d.ts');
 import chai = require('chai');
 import request = require('../src/parsers/request');
+import route = require('../src/parsers/route');
 var expect = chai.expect;
 
 describe('request parsing', () => {
@@ -55,7 +56,43 @@ describe('request parsing', () => {
     });
 });
 
-function testType(part: Types.Part, type: string, value: any): void {
+describe('route parsing tests', () => {
+    describe('single part routes', () => {
+        it('will return a route type', () => {
+            var r = route('/normal-route');
+            testPart(r[0], 'route');
+        });
+        
+        it('will return a string type', () => {
+            var r = route('/{param: string}');
+            testPart(r[0], 'parameter', 'string');
+        });
+        
+        it('will return a number type', () => {
+            var r = route('/{param: number}');
+            testPart(r[0], 'parameter', 'number');
+        });
+        
+        it('will return a array type', () => {
+            var r = route('/{param: array}');
+            testPart(r[0], 'parameter', 'array');
+        });
+        
+        it('will return a object type', () => {
+            var r = route('/{param: object}');
+            testPart(r[0], 'parameter', 'object');
+        });
+    })
+    
+})
+
+function testPart(part: Types.RoutePart, type: string, cast?: string) {
+    cast = cast || null;
+    expect(part.type).to.equal(type);
+    expect(part.cast).to.equal(cast);
+}
+
+function testType(part: Types.RequestPart, type: string, value: any): void {
     expect(part.type).to.equal(type);
     if (part.type === 'string' || part.type === 'number')
         expect(part.value).to.equal(value);
