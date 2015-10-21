@@ -64,7 +64,7 @@ function toObject(input: any) {
 
 var casters = [toString, toNumber, toArray, toObject];
 
-function getType(part: string): Types.Part {
+function getType(part: string): Types.RequestPart {
     var addPart = (returnPart: any) => {
         returnPart.part = part;
         return returnPart;
