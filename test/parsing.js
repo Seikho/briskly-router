@@ -33,6 +33,16 @@ describe('request parsing', function () {
         testType(parts[0], 'string', 'first');
         testType(parts[1], 'number', 12345);
     });
+    it('will return two parts, string and array', function () {
+        var parts = request('/first/[1,2,3]');
+        testType(parts[0], 'string', 'first');
+        testType(parts[1], 'array', [1, 2, 3]);
+    });
+    it('will return two parts, string and object', function () {
+        var parts = request('/first/{ "foo": "bar", "baz": [1,2,3]}');
+        testType(parts[0], 'string', 'first');
+        testType(parts[1], 'object', { foo: 'bar', baz: [1, 2, 3] });
+    });
 });
 function testType(part, type, value) {
     expect(part.type).to.equal(type);

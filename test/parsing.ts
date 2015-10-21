@@ -35,11 +35,23 @@ describe('request parsing', () => {
         testType(parts[0], 'string', 'first');
         testType(parts[1], 'string', 'second');
     });
-    
+
     it('will return two parts, string and number', () => {
-       var parts = request('/first/12345');
-       testType(parts[0], 'string', 'first');
-       testType(parts[1], 'number', 12345); 
+        var parts = request('/first/12345');
+        testType(parts[0], 'string', 'first');
+        testType(parts[1], 'number', 12345);
+    });
+
+    it('will return two parts, string and array', () => {
+        var parts = request('/first/[1,2,3]');
+        testType(parts[0], 'string', 'first');
+        testType(parts[1], 'array', [1, 2, 3]);
+    });
+
+    it('will return two parts, string and object', () => {
+        var parts = request('/first/{ "foo": "bar", "baz": [1,2,3]}');
+        testType(parts[0], 'string', 'first');
+        testType(parts[1], 'object', { foo: 'bar', baz: [1, 2, 3] });
     });
 });
 
