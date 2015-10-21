@@ -3,13 +3,13 @@ Expression
  / Sep
 
 Word 
- = w:([a-zA-Z0-9]+) { return w.join('') }
+ = w:([a-zA-Z0-9\-]+) { return w.join('') }
 
 Part
  = Sep r:(Route / Parameter) { return r }
 
 Route
- = w:Word { return { type:'route', part: w } }
+ = w:Word { return { type:'route', part: w, cast: null } }
 
 Parameter
  = LB w:Word t:Cast? RB { return { type:'parameter', part: w, cast: t } }
