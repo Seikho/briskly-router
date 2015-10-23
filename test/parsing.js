@@ -1,6 +1,7 @@
 var chai = require('chai');
 var request = require('../src/parsers/request');
 var route = require('../src/parsers/route');
+var match = require('../src/matchPart');
 var expect = chai.expect;
 describe('request parsing', function () {
     it('will return a single string part', function () {
@@ -59,16 +60,157 @@ describe('route parsing tests', function () {
             var r = route('/{param: number}');
             testPart(r[0], 'parameter', 'number');
         });
-        it('will return a array type', function () {
+        it('will return an array type', function () {
             var r = route('/{param: array}');
             testPart(r[0], 'parameter', 'array');
         });
-        it('will return a object type', function () {
+        it('will return an object type', function () {
             var r = route('/{param: object}');
             testPart(r[0], 'parameter', 'object');
         });
+        it('will return an any type', function () {
+            var r = route('/{param:any}');
+            testPart(r[0], 'parameter', 'any');
+        });
     });
 });
+describe('request/part comparison tests', function () {
+    describe('part tests', function () {
+        it('will match route part with request part', function () {
+            var req = request('/a-route');
+            var rt = route('/a-route');
+            testMatch(req[0], rt[0], 0 /* Part */);
+        });
+        it('will not match route part with misspelt request part', function () {
+            var req = request('/b-route');
+            var rt = route('/a-route');
+            testMatch(req[0], rt[0], 2 /* None */);
+        });
+    });
+    describe('string parameter tests', function () {
+        it('will match route string parameter with request part', function () {
+            var req = request('/a-string');
+            var rt = route('/{param: string}');
+            testMatch(req[0], rt[0], 1 /* Parameter */);
+        });
+        it('will not match route string parameter with request number part', function () {
+            var req = request('/12345');
+            var rt = route('/{param: string}');
+            testMatch(req[0], rt[0], 2 /* None */);
+        });
+        it('will not match route string parameter with request array part', function () {
+            var req = request('/[]');
+            var rt = route('/{param: string}');
+            testMatch(req[0], rt[0], 2 /* None */);
+        });
+        it('will not match route string parameter with request object part', function () {
+            var req = request('/{}');
+            var rt = route('/{param: string}');
+            testMatch(req[0], rt[0], 2 /* None */);
+        });
+        it('will match route any parameter with request part', function () {
+            var req = request('/a-string');
+            var rt = route('/{param: any}');
+            testMatch(req[0], rt[0], 1 /* Parameter */);
+        });
+    });
+    describe('number parameter tests', function () {
+        it('will match route number parameter with request number', function () {
+            var req = request('/12345.789');
+            var rt = route('/{param: number}');
+            testMatch(req[0], rt[0], 1 /* Parameter */);
+        });
+        it('will not match route number parameter with request string', function () {
+            var req = request('/a-string');
+            var rt = route('/{param: number}');
+            testMatch(req[0], rt[0], 2 /* None */);
+        });
+        it('will not match route number parameter with request array', function () {
+            var req = request('/["a-string"]');
+            var rt = route('/{param: number}');
+            testMatch(req[0], rt[0], 2 /* None */);
+        });
+        it('will not match route number parameter with request object', function () {
+            var req = request('/{}');
+            var rt = route('/{param: number}');
+            testMatch(req[0], rt[0], 2 /* None */);
+        });
+        it('will match route any parameter with request number', function () {
+            var req = request('/1e7');
+            var rt = route('/{param: any}');
+            testMatch(req[0], rt[0], 1 /* Parameter */);
+        });
+    });
+    describe('array parameter tests', function () {
+        it('will match route array parameter with request array', function () {
+            var req = request('/[1,"a",{"b": "foo"}]');
+            var rt = route('/{param: array}');
+            testMatch(req[0], rt[0], 1 /* Parameter */);
+        });
+        it('will not match route array parameter with request string', function () {
+            var req = request('/a-string-route');
+            var rt = route('/{param: array}');
+            testMatch(req[0], rt[0], 2 /* None */);
+        });
+        it('will not match route array parameter with request number', function () {
+            var req = request('/0');
+            var rt = route('/{param: array}');
+            testMatch(req[0], rt[0], 2 /* None */);
+        });
+        it('will not match route array parameter with request object', function () {
+            var req = request('/{}');
+            var rt = route('/{param: array}');
+            testMatch(req[0], rt[0], 2 /* None */);
+        });
+        it('will match route any parameter with request array', function () {
+            var req = request('/[ [1,2,3], [4,5,6], [7,8,9]]');
+            var rt = route('/{param: any}');
+            testMatch(req[0], rt[0], 1 /* Parameter */);
+        });
+    });
+    describe('object parameter tests', function () {
+        it('will match route object parameter with request object', function () {
+            var req = request('/{ "a": [1,2,3], "b": { "c": 123, "d": [7,8,9] } }');
+            var rt = route('/{param: object}');
+            testMatch(req[0], rt[0], 1 /* Parameter */);
+        });
+        it('will not match route object parameter with request string', function () {
+            var req = request('/a-string-route');
+            var rt = route('/{param: object}');
+            testMatch(req[0], rt[0], 2 /* None */);
+        });
+        it('will not match route object parameter with request number', function () {
+            var req = request('/0');
+            var rt = route('/{param: object}');
+            testMatch(req[0], rt[0], 2 /* None */);
+        });
+        it('will not match route object parameter with request array', function () {
+            var req = request('/[]');
+            var rt = route('/{param: object}');
+            testMatch(req[0], rt[0], 2 /* None */);
+        });
+        it('will match route any parameter with request array', function () {
+            var req = request('/{}');
+            var rt = route('/{param: any}');
+            testMatch(req[0], rt[0], 1 /* Parameter */);
+        });
+    });
+});
+function testMatch(reqPart, routePart, expected) {
+    var result = match(reqPart, routePart);
+    expect(matchString(result)).to.equal(matchString(expected));
+}
+function matchString(match) {
+    switch (match) {
+        case 0 /* Part */:
+            return 'Part';
+        case 1 /* Parameter */:
+            return 'Parameter';
+        default:
+            return 'None';
+    }
+    ;
+}
 function testPart(part, type, cast) {
     cast = cast || null;
     expect(part.type).to.equal(type);
