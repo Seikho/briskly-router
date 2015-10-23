@@ -12,7 +12,7 @@ Route
  = w:Word { return { type:'route', part: w, cast: null } }
 
 Parameter
- = LB w:Word t:Cast? RB { return { type:'parameter', part: w, cast: t } }
+ = LB w:Word t:Cast? RB { return { type:'parameter', part: w, cast: t || 'any' } }
 
 Cast
  = _ DD _ t:CastType _ { return t }
