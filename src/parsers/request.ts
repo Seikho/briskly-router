@@ -18,7 +18,7 @@ function toNumber(input: any) {
     if (!isNumber(input)) return null;
 
     return {
-        type: 'number',
+        cast: 'number',
         value: Number(input)
     };
 }
@@ -27,7 +27,7 @@ function toString(input: any) {
     if (isNumber(input)) return null;
     
     return {
-        type: 'string',
+        cast: 'string',
         value: input
     };
 }
@@ -37,7 +37,7 @@ function toArray(input: any) {
         var value = JSON.parse(input);
         if (!Array.isArray(value)) return null;
         return {
-            type: 'array',
+            cast: 'array',
             value
         };
     }
@@ -53,7 +53,7 @@ function toObject(input: any) {
         if (value instanceof String) return null;
         if (isNumber(input)) return null;
         return {
-            type: 'object',
+            cast: 'object',
             value
         };
     }

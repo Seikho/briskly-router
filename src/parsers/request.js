@@ -13,7 +13,7 @@ function toNumber(input) {
     if (!isNumber(input))
         return null;
     return {
-        type: 'number',
+        cast: 'number',
         value: Number(input)
     };
 }
@@ -21,7 +21,7 @@ function toString(input) {
     if (isNumber(input))
         return null;
     return {
-        type: 'string',
+        cast: 'string',
         value: input
     };
 }
@@ -31,7 +31,7 @@ function toArray(input) {
         if (!Array.isArray(value))
             return null;
         return {
-            type: 'array',
+            cast: 'array',
             value: value
         };
     }
@@ -49,7 +49,7 @@ function toObject(input) {
         if (isNumber(input))
             return null;
         return {
-            type: 'object',
+            cast: 'object',
             value: value
         };
     }
