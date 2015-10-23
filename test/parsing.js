@@ -76,7 +76,7 @@ function testPart(part, type, cast) {
 }
 function testType(part, cast, value) {
     expect(part.cast).to.equal(cast);
-    if (part.type === 'string' || part.type === 'number')
+    if (part.cast === 'string' || part.cast === 'number')
         expect(part.value).to.equal(value);
     if (cast === 'array')
         expect(part.value).to.have.same.members(value);

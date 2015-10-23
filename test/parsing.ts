@@ -94,7 +94,7 @@ function testPart(part: Types.RoutePart, type: string, cast?: string) {
 
 function testType(part: Types.RequestPart, cast: string, value: any): void {
     expect(part.cast).to.equal(cast);
-    if (part.type === 'string' || part.type === 'number')
+    if (part.cast === 'string' || part.cast === 'number')
         expect(part.value).to.equal(value);
 
     if (cast === 'array')
