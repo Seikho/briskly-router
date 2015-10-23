@@ -36,15 +36,17 @@ export interface Callback {
 }
 
 export interface RoutePart {
-    type: string;
     cast?: string;
     part: string;
+    type: string;
 }
 
 export interface PegParser<T> {
-   parse(input: string): T; 
+    parse(input: string): T;
 }
 
-export interface RequestPart extends RoutePart {
+export interface RequestPart {
+    part: string;
     value: any;
+    cast: string;
 }
