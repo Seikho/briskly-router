@@ -74,13 +74,13 @@ function testPart(part, type, cast) {
     expect(part.type).to.equal(type);
     expect(part.cast).to.equal(cast);
 }
-function testType(part, type, value) {
-    expect(part.type).to.equal(type);
+function testType(part, cast, value) {
+    expect(part.cast).to.equal(cast);
     if (part.type === 'string' || part.type === 'number')
         expect(part.value).to.equal(value);
-    if (type === 'array')
+    if (cast === 'array')
         expect(part.value).to.have.same.members(value);
-    if (type === 'object')
+    if (cast === 'object')
         expect(part.value).to.deep.equal(value);
 }
 //# sourceMappingURL=parsing.js.map
