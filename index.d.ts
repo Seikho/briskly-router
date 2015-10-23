@@ -50,3 +50,9 @@ export interface RequestPart {
     value: any;
     cast: string;
 }
+
+export const enum Match {
+    Part,
+    Parameter,
+    None
+}
