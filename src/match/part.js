@@ -2,12 +2,12 @@ function isMatch(request, route) {
     if (route.type === 'route')
         return request.part === route.part
             ? 0 /* Part */
-            : 2 /* None */;
+            : 3 /* None */;
     if (route.cast === 'any')
-        return 1 /* Parameter */;
+        return 2 /* Any */;
     return route.cast === request.cast
-        ? 1 /* Parameter */
-        : 2 /* None */;
+        ? 1 /* Type */
+        : 3 /* None */;
 }
 module.exports = isMatch;
 //# sourceMappingURL=part.js.map

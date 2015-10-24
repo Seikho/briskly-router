@@ -9,10 +9,10 @@ function isMatch(request: Types.RequestPart, route: Types.RoutePart) {
             : Match.None;
 
     if (route.cast === 'any')
-        return Match.Parameter;
+        return Match.Any;
 
     return route.cast === request.cast
-        ? Match.Parameter
+        ? Match.Type
         : Match.None;
 }
 
