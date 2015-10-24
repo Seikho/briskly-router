@@ -1,0 +1,2 @@
+import compare = require('./compare');
+ 
