@@ -1,4 +1,3 @@
-import Types = require('../../index.d.ts');
 import fs = require('fs');
 import path = require('path');
 var PEG = require('pegjs');

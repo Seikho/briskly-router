@@ -1,4 +1,3 @@
-import Types = require('../index.d.ts');
 import Match = Types.Match;
 import chai = require('chai');
 import request = require('../src/parsers/request');

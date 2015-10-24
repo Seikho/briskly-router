@@ -1,4 +1,3 @@
-import Types = require('../../index.d.ts');
 import Match = Types.Match;
 export = isMatch;
 

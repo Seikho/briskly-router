@@ -1,5 +1,4 @@
 import routes = require('./routes');
-import Types = require('../index.d.ts');
 import routeParser = require('./parsers/route');
 
 var table: Table = {};
