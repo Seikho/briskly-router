@@ -1,5 +1,6 @@
 var errors = require('./errors');
 var routes = require('./routes');
+var routeParser = require('./parsers/route');
 function route(options) {
     if (!options)
         throw new Error(errors.NoOptions);
@@ -11,7 +12,11 @@ function route(options) {
         throw new Error(errors.NoPath);
     if (options.path.slice(0, 1) !== '/')
         options.path = '/' + options.path;
-    routes.push(options);
+    var parts = routeParser(options.path);
+    routes.push({
+        parts: parts,
+        options: options
+    });
 }
 module.exports = route;
 //# sourceMappingURL=route.js.map
