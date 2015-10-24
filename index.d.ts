@@ -25,14 +25,15 @@ export interface Session {
     [index: string]: any;
 }
 
+export interface Route {
+    parts: Array<RoutePart>;
+    options: RouteOptions;
+}
+
 export interface RouteOptions {
     method: string;
     path: string;
     handler: RouteHandler;
-}
-
-export interface Callback {
-    (error?: any, data?: any): void;
 }
 
 export interface RoutePart {
@@ -41,8 +42,9 @@ export interface RoutePart {
     type: string;
 }
 
-export interface PegParser<T> {
-    parse(input: string): T;
+export interface Request {
+    parts: Array<RequestPart>;
+    path: string;
 }
 
 export interface RequestPart {
@@ -55,4 +57,12 @@ export const enum Match {
     Part,
     Parameter,
     None
+}
+
+export interface Callback {
+    (error?: any, data?: any): void;
+}
+
+export interface PegParser<T> {
+    parse(input: string): T;
 }
