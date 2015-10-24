@@ -55,7 +55,8 @@ export interface RequestPart {
 
 export const enum Match {
     Part,
-    Parameter,
+    Type,
+    Any,
     None
 }
 
