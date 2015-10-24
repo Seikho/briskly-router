@@ -1,8 +1,8 @@
-import Types = require('../index.d.ts');
+import Types = require('../../index.d.ts');
 import Match = Types.Match;
-import routes = require('./routes');
+import routes = require('../routes');
 import log = require('ls-logger');
-import requestParser = require('./parsers/request');
+import requestParser = require('../parsers/request');
 export = match;
 
 function match(path: string): Types.RouteOptions {

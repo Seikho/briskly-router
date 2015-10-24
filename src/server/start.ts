@@ -1,5 +1,5 @@
-import config = require('./config');
-import server = require('./server');
+import config = require('../config');
+import server = require('./index');
 
 const DEFAULT_PORT = 2189;
 

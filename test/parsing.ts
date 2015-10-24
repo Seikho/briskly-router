@@ -3,7 +3,7 @@ import Match = Types.Match;
 import chai = require('chai');
 import request = require('../src/parsers/request');
 import route = require('../src/parsers/route');
-import match = require('../src/matchPart');
+import match = require('../src/match/part');
 var expect = chai.expect;
 
 describe('request parsing', () => {

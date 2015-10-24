@@ -10,4 +10,4 @@ function isMatch(request, route) {
         : 2 /* None */;
 }
 module.exports = isMatch;
-//# sourceMappingURL=matchPart.js.map
+//# sourceMappingURL=part.js.map

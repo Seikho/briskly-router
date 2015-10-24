@@ -1,5 +1,5 @@
 exports.route = require('./route');
 exports.server = require('./server');
-exports.start = require('./start');
-exports.stop = require('./stop');
+exports.start = require('./server/start');
+exports.stop = require('./server/stop');
 //# sourceMappingURL=index.js.map

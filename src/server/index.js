@@ -1,5 +1,5 @@
 var http = require('http');
-var match = require('./match');
+var match = require('../match');
 var forms = require('formidable');
 var qs = require('querystring');
 var server = http.createServer();
@@ -54,4 +54,4 @@ function parseUrl(url) {
     return { path: path, query: query };
 }
 module.exports = server;
-//# sourceMappingURL=server.js.map
+//# sourceMappingURL=index.js.map

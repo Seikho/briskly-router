@@ -1,7 +1,7 @@
 var chai = require('chai');
 var request = require('../src/parsers/request');
 var route = require('../src/parsers/route');
-var match = require('../src/matchPart');
+var match = require('../src/match/part');
 var expect = chai.expect;
 describe('request parsing', function () {
     it('will return a single string part', function () {

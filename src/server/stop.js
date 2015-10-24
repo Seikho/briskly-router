@@ -1,4 +1,4 @@
-var server = require('./server');
+var server = require('./index');
 module.exports = function stop(callback) {
     server.close(callback);
 };

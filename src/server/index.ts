@@ -1,7 +1,7 @@
 import http = require('http');
-import routes = require('./routes');
-import match = require('./match');
-import Types = require('../index.d.ts');
+import routes = require('../routes');
+import match = require('../match');
+import Types = require('../../index.d.ts');
 import forms = require('formidable');
 import qs = require('querystring');
 
