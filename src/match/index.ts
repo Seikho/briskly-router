@@ -1,13 +1,11 @@
 import Match = Types.Match;
 import routes = require('../routes');
 import log = require('ls-logger');
-import requestParser = require('../parsers/request');
+import toRequest = require('./request');
 export = match;
 
 function match(path: string): Types.RouteOptions {
-    var request = toRequest(path);
-    
-
+    var request = toRequest(path);   
     // TODO: find matching routes
         
     var options: Types.RouteOptions = {
@@ -20,13 +18,4 @@ function match(path: string): Types.RouteOptions {
     }
 
     return options;
-}
-
-function toRequest(path: string): Types.Request {
-    var parts = requestParser(path);
-    
-    return {
-        parts,
-        path
-    };
 }

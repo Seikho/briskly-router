@@ -1,4 +1,4 @@
-var requestParser = require('../parsers/request');
+var toRequest = require('./request');
 function match(path) {
     var request = toRequest(path);
     // TODO: find matching routes
@@ -11,13 +11,6 @@ function match(path) {
         }
     };
     return options;
-}
-function toRequest(path) {
-    var parts = requestParser(path);
-    return {
-        parts: parts,
-        path: path
-    };
 }
 module.exports = match;
 //# sourceMappingURL=index.js.map
