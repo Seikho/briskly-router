@@ -45,6 +45,7 @@ declare module Types {
 
     interface Request {
         parts: Array<RequestPart>;
+        method: string;
         path: string;
     }
 
