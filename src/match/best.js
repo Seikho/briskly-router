@@ -2,14 +2,16 @@ var compare = require('./compare');
 var routes = require('../routes');
 function bestMatch(request) {
     var comparisons = routes
+        .filter(function (r) { return r.options.method === request.method; })
         .map(function (route) { return compare(request, route); })
         .map(toComparison)
         .filter(function (comparison) { return comparison.matches != null; });
     var matches = comparisons.slice();
-    for (var i = 0; i < request.parts.length; ++i) {
+    for (var i = 0; i < request.parts.length; i++) {
         var forMatches = function (comparator) { return function (comparison) { return comparison.matches[i] === comparator; }; };
         var exactMatches = [];
-        for (var comparator in matchPriority) {
+        for (var key in matchPriority) {
+            var comparator = matchPriority[key];
             exactMatches = matches.filter(forMatches(comparator));
             if (exactMatches.length !== 0)
                 break;
