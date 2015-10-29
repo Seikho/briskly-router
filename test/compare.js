@@ -26,6 +26,15 @@ describe('request/route comparison tests', function () {
         var match = best(request('/12345'));
         expect(match).to.not.exist;
     });
+    it('will return a match single match despite possible ambiguity', function () {
+        var match = best(request('/a-part'));
+        expect(match).to.exist;
+        expect(match.options.path).to.equal('/a-part');
+    });
+    it('will not return a match when first part matches and second does not', function () {
+        var match = best(request('/a-part/another-part'));
+        expect(match).to.not.exist;
+    });
 });
 function addRoute(path, method) {
     method = method || 'get';

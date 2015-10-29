@@ -8,34 +8,45 @@ import Match = Types.Match;
 var expect = chai.expect;
 
 describe('request/route comparison tests', () => {
-	
-	it('will return a single Part match', () => {
-		addRoute('/a-part');
-        var req = request('/a-part');                
-		var match = best(req);
+
+    it('will return a single Part match', () => {
+        addRoute('/a-part');
+        var req = request('/a-part');
+        var match = best(req);
         expect(match).to.exist;
-        expect(match.options.path).to.equal('/a-part');        
-	});
-    
-    it('will not return a match', () => {
-       var req = request('/a-sparta');
-       var match = best(req);
-       expect(match).to.not.exist; 
+        expect(match.options.path).to.equal('/a-part');
     });
-    
+
+    it('will not return a match', () => {
+        var req = request('/a-sparta');
+        var match = best(req);
+        expect(match).to.not.exist;
+    });
+
     it('will return a match based on string type', () => {
         addRoute('/{word: string}');
         var match = best(request('/a-sparta'));
         expect(match).to.exist;
         expect(match.options.path).to.equal('/{word: string}');
     });
-    
+
     it('will return not return a match due to type mismatch', () => {
-       var match = best(request('/12345'));
-       expect(match).to.not.exist; 
+        var match = best(request('/12345'));
+        expect(match).to.not.exist;
     });
-	
-	
+
+    it('will return a match single match despite possible ambiguity', () => {
+        var match = best(request('/a-part'));
+        expect(match).to.exist;
+        expect(match.options.path).to.equal('/a-part');
+    });
+
+    it('will not return a match when first part matches and second does not', () => {
+        var match = best(request('/a-part/another-part'));
+        expect(match).to.not.exist;
+    });
+
+
 });
 
 function addRoute(path: string, method?: string) {
@@ -43,12 +54,12 @@ function addRoute(path: string, method?: string) {
     add({
         method,
         path,
-        handler: () => {}
+        handler: () => { }
     });
 }
 
 function test(matches: Array<Match>, expected: Array<Match>) {
-	expect(matches.length).to.equal(expected.length);
-	
-	matches.forEach((match, index) => expect(match).to.equal(expected[index]));
+    expect(matches.length).to.equal(expected.length);
+
+    matches.forEach((match, index) => expect(match).to.equal(expected[index]));
 }
