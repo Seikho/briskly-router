@@ -1,9 +1,10 @@
 var requestParser = require('../parsers/request');
-function toRequest(path) {
+function toRequest(path, method) {
     var parts = requestParser(path);
     return {
         parts: parts,
-        path: path
+        path: path,
+        method: method
     };
 }
 module.exports = toRequest;
