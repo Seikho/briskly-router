@@ -34,4 +34,5 @@ var matchPriority = [
     1 /* Type */,
     2 /* Any */
 ];
+module.exports = bestMatch;
 //# sourceMappingURL=best.js.map

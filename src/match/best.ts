@@ -1,6 +1,7 @@
 import compare = require('./compare');
 import routes = require('../routes');
 import Match = Types.Match;
+export = bestMatch;
 
 function bestMatch(request: Types.Request): Types.Route {
     var comparisons = routes
