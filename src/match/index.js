@@ -1,6 +1,7 @@
 var toRequest = require('./request');
-function match(path) {
-    var request = toRequest(path);
+function match(path, method) {
+    method = method.toUpperCase();
+    var request = toRequest(path, method);
     // TODO: find matching routes
     var options = {
         method: 'GET',

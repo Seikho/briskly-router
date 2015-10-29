@@ -4,8 +4,9 @@ import log = require('ls-logger');
 import toRequest = require('./request');
 export = match;
 
-function match(path: string): Types.RouteOptions {
-    var request = toRequest(path);   
+function match(path: string, method: string): Types.RouteOptions {
+    method = method.toUpperCase();
+    var request = toRequest(path, method);   
     // TODO: find matching routes
         
     var options: Types.RouteOptions = {
