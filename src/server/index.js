@@ -5,11 +5,11 @@ var qs = require('querystring');
 var server = http.createServer();
 server.on('request', function (message, response) {
     var error = false;
-    var method = message.method.toUpperCase();
+    var method = message.method;
     var parsedUrl = parseUrl(message.url);
     var path = parsedUrl.path;
     var query = parsedUrl.query;
-    var routeHandler = match(path);
+    var routeHandler = match(path, method);
     if (method === 'POST') {
         return postHandler(message, response, routeHandler);
     }
