@@ -56,10 +56,11 @@ declare module Types {
     }
 
     const enum Match {
-        Part,
-        Type,
-        Any,
-        None
+        Part = 0,
+        Type = 1,
+        Any = 2,
+        None = 3,
+        Wildcard = 4
     }
 
     interface Callback {
