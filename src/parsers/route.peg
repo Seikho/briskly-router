@@ -11,7 +11,7 @@ Part
 Route
  = w:Word { return { type:'route', part: w, cast: null } }
  
- Wildcard
+Wildcard
  = w:WC { return { type:'wildcard', part: '*', cast: null } } 
 
 Parameter
