@@ -12,7 +12,16 @@ function route(options: Types.RouteOptions) {
     if (options.path.slice(0, 1) !== '/') options.path = '/' + options.path;
 
     var parts = routeParser(options.path);
+
+    var length = parts.length;
+    if (length === 0) throw new Error(errors.InvalidPath);
     
+    var wildcardCount = parts.filter(p => p.type === 'wildcard').length;
+    if (wildcardCount > 1) throw new Error(errors.InvalidWildCard);
+    
+    var wildcardBeforeEnd = parts.some((part, index) => part.type === 'wildcard' && index !== length);
+    if (wildcardBeforeEnd) throw new Error(errors.InvalidWildCard);
+
     routes.push({
         parts,
         options
