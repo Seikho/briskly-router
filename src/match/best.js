@@ -8,7 +8,12 @@ function bestMatch(request) {
         .filter(function (comparison) { return comparison.matches != null; });
     var matches = comparisons.slice();
     for (var i = 0; i < request.parts.length; i++) {
-        var forMatches = function (comparator) { return function (comparison) { return comparison.matches[i] === comparator; }; };
+        var forMatches = function (comparator) { return function (comparison) {
+            var exactMatch = comparison.matches[i] === comparator;
+            var lastMatch = comparison.matches[comparison.matches.length];
+            var wildcardMatch = lastMatch === 4 /* Wildcard */;
+            return exactMatch || wildcardMatch;
+        }; };
         var exactMatches = [];
         for (var key in matchPriority) {
             var comparator = matchPriority[key];
