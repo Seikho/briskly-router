@@ -16,7 +16,7 @@ function bestMatch(request: Types.Request): Types.Route {
         var forMatches = (comparator: Match) => (comparison: Comparison) => {
             var exactMatch = comparison.matches[i] === comparator;
 
-            var lastMatch = comparison.matches[comparison.matches.length];
+            var lastMatch = comparison.matches[comparison.matches.length - 1];
             var wildcardMatch = lastMatch === Match.Wildcard;
 
             return exactMatch || wildcardMatch;

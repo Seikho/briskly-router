@@ -10,7 +10,7 @@ function bestMatch(request) {
     for (var i = 0; i < request.parts.length; i++) {
         var forMatches = function (comparator) { return function (comparison) {
             var exactMatch = comparison.matches[i] === comparator;
-            var lastMatch = comparison.matches[comparison.matches.length];
+            var lastMatch = comparison.matches[comparison.matches.length - 1];
             var wildcardMatch = lastMatch === 4 /* Wildcard */;
             return exactMatch || wildcardMatch;
         }; };
@@ -28,7 +28,6 @@ function bestMatch(request) {
     }
     if (matches.length > 1) {
         // Ambiguous match -- can occur when using wildcards
-        // TODO: How to handle?
         // Get the match that doesn't have a wildcard (will only be one)
         // If there is none, get the longest wildcard match (based on parts.length)
         // If there are several matches, throw an error -- `add(routeOptions)` should prevent this scenario
