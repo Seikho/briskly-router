@@ -3,7 +3,7 @@ import routes = require('../routes');
 import Match = Types.Match;
 export = bestMatch;
 
-function bestMatch(request: Types.Request): Types.Route {    
+function bestMatch(request: Types.Request): Types.Route {
     var comparisons = routes
         .filter(r => r.options.method === request.method)
         .map(route => compare(request, route))
@@ -15,10 +15,10 @@ function bestMatch(request: Types.Request): Types.Route {
     for (var i = 0; i < request.parts.length; i++) {
         var forMatches = (comparator: Match) => (comparison: Comparison) => {
             var exactMatch = comparison.matches[i] === comparator;
-            
+
             var lastMatch = comparison.matches[comparison.matches.length];
             var wildcardMatch = lastMatch === Match.Wildcard;
-            
+
             return exactMatch || wildcardMatch;
         }
         var exactMatches = [];
@@ -34,7 +34,7 @@ function bestMatch(request: Types.Request): Types.Route {
         matches = exactMatches.slice();
     }
 
-    if (matches.length > 1) {        
+    if (matches.length > 1) {
         // Ambiguous match -- can occur when using wildcards
         
         // TODO: How to handle?
@@ -42,6 +42,15 @@ function bestMatch(request: Types.Request): Types.Route {
         // If there is none, get the longest wildcard match (based on parts.length)
         
         // If there are several matches, throw an error -- `add(routeOptions)` should prevent this scenario
+        
+        var exactMatch = matches.filter(match => match.matches.every(m => m !== Match.Wildcard))[0];
+        if (exactMatch) return routes[exactMatch.index];
+
+        var maxLength = matches.reduce((prev, curr) => prev = curr.matches.length > prev ? curr.matches.length : prev, 0);
+        var longest = matches.filter(match => match.matches.length === maxLength);
+        if (longest.length > 1) throw new Error(`Ambiguous route detected (${request.path})`);
+        
+        return routes[longest[0].index];
     }
 
     return routes[matches[0].index];
