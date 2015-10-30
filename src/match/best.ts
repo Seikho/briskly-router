@@ -37,7 +37,6 @@ function bestMatch(request: Types.Request): Types.Route {
     if (matches.length > 1) {
         // Ambiguous match -- can occur when using wildcards
         
-        // TODO: How to handle?
         // Get the match that doesn't have a wildcard (will only be one)
         // If there is none, get the longest wildcard match (based on parts.length)
         
