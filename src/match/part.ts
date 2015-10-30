@@ -7,6 +7,9 @@ function isMatch(request: Types.RequestPart, route: Types.RoutePart) {
             ? Match.Part
             : Match.None;
 
+    if (route.type === 'wildcard')
+        return Match.Wildcard;
+
     if (route.cast === 'any')
         return Match.Any;
 
