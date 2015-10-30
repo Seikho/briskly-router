@@ -1,6 +1,8 @@
 var matchPart = require('./part');
 function compare(request, route) {
-    if (request.parts.length !== route.parts.length)
+    var sameLength = request.parts.length === route.parts.length;
+    var hasWildcard = route.parts.some(function (r) { return r.type === 'wildcard'; });
+    if (!sameLength && !hasWildcard)
         return null;
     var matches = request.parts.map(function (part, i) { return matchPart(part, route.parts[i]); });
     var hasNone = matches.some(function (match) { return match === 3 /* None */; });
