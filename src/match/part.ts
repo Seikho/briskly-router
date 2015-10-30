@@ -2,18 +2,19 @@ import Match = Types.Match;
 export = isMatch;
 
 function isMatch(request: Types.RequestPart, route: Types.RoutePart) {
-    if (route.type === 'route')
-        return request.part === route.part
+    var safeRoute = route || { type: 'wildcard', part: '*' };
+    if (safeRoute.type === 'route')
+        return request.part === safeRoute.part
             ? Match.Part
             : Match.None;
 
-    if (route.type === 'wildcard')
+    if (safeRoute == null || safeRoute.type === 'wildcard')
         return Match.Wildcard;
 
-    if (route.cast === 'any')
+    if (safeRoute.cast === 'any')
         return Match.Any;
 
-    return route.cast === request.cast
+    return safeRoute.cast === request.cast
         ? Match.Type
         : Match.None;
 }
