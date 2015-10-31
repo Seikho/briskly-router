@@ -7,6 +7,7 @@ import qs = require('querystring');
 import fs = require('fs');
 import pth = require('path');
 import logger = require('ls-logger');
+import toRequest = require('../match/request')
 
 export = server;
 
@@ -28,8 +29,7 @@ server.on('request', (message: http.IncomingMessage, response: http.ServerRespon
     }
 
     var wildcard = getWildcardPath(path, route);
-
-
+    var params = getParameters(path);
     var handler = route.options.handler;
     var reply = toReply(response);
     if (isDir(handler)) {
@@ -44,27 +44,38 @@ server.on('request', (message: http.IncomingMessage, response: http.ServerRespon
     }
 
     if (method === 'POST') {
-        return postHandler(message, response, route.options, wildcard);
+        return postHandler(message, response, route.options, wildcard, params);
     }
 
     if (isFunc(handler)) {
-        handler({ query, path, wildcard, body: {} }, reply);
+        handler({ query, path, wildcard, body: {}, params }, reply);
     }
 });
+
+function getParameters(path: string) {
+    var request = toRequest(path);
+    var parameters: any = {};
+    var parts = request.parts.forEach(part => {
+       if (part.cast == null) return;
+       parameters[part.part] = part.value;
+    });
+    
+    return parameters;
+}
 
 function stripUpDirs(path: string) {
     var split = path.split('/..');
     return split.filter(s => s !== '').join('');
 }
 
-function postHandler(message: http.IncomingMessage, response: http.ServerResponse, routeHandler: Types.RouteOptions, wildcard: string) {
+function postHandler(message: http.IncomingMessage, response: http.ServerResponse, routeHandler: Types.RouteOptions, wildcard: string, params: any) {
     var body = '';
     var error = false;
     var parsed = parseUrl(message.url);
     var formParser = new forms.IncomingForm();
     var callback = (err, fields) => {
         var handler = <Types.RouteHandler>routeHandler.handler;
-        handler({ body: fields, path: parsed.path, wildcard, query: {} }, toReply(response));
+        handler({ body: fields, path: parsed.path, wildcard, query: {}, params }, toReply(response));
     }
 
     formParser.parse(message, callback);

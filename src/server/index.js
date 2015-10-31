@@ -6,6 +6,7 @@ var qs = require('querystring');
 var fs = require('fs');
 var pth = require('path');
 var logger = require('ls-logger');
+var toRequest = require('../match/request');
 var server = http.createServer();
 server.on('request', function (message, response) {
     var error = false;
@@ -20,6 +21,7 @@ server.on('request', function (message, response) {
         return;
     }
     var wildcard = getWildcardPath(path, route);
+    var params = getParameters(path);
     var handler = route.options.handler;
     var reply = toReply(response);
     if (isDir(handler)) {
@@ -32,24 +34,34 @@ server.on('request', function (message, response) {
         return;
     }
     if (method === 'POST') {
-        return postHandler(message, response, route.options, wildcard);
+        return postHandler(message, response, route.options, wildcard, params);
     }
     if (isFunc(handler)) {
-        handler({ query: query, path: path, wildcard: wildcard, body: {} }, reply);
+        handler({ query: query, path: path, wildcard: wildcard, body: {}, params: params }, reply);
     }
 });
+function getParameters(path) {
+    var request = toRequest(path);
+    var parameters = {};
+    var parts = request.parts.forEach(function (part) {
+        if (part.cast == null)
+            return;
+        parameters[part.part] = part.value;
+    });
+    return parameters;
+}
 function stripUpDirs(path) {
     var split = path.split('/..');
     return split.filter(function (s) { return s !== ''; }).join('');
 }
-function postHandler(message, response, routeHandler, wildcard) {
+function postHandler(message, response, routeHandler, wildcard, params) {
     var body = '';
     var error = false;
     var parsed = parseUrl(message.url);
     var formParser = new forms.IncomingForm();
     var callback = function (err, fields) {
         var handler = routeHandler.handler;
-        handler({ body: fields, path: parsed.path, wildcard: wildcard, query: {} }, toReply(response));
+        handler({ body: fields, path: parsed.path, wildcard: wildcard, query: {}, params: params }, toReply(response));
     };
     formParser.parse(message, callback);
 }
