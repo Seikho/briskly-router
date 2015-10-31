@@ -5,6 +5,14 @@ var routes = require('../src/routes');
 var chai = require('chai');
 var expect = chai.expect;
 describe('request/route comparison tests', function () {
+    it('will match the "/" route path', function () {
+        clearRoutes();
+        addRoute('/');
+        var match = bestReq('/');
+        expect(match).to.exist;
+        expect(match.options.path).to.equal('/');
+        clearRoutes();
+    });
     it('will add and remove a route', function () {
         addRoute('/sample');
         expect(routes.length).to.equal(1);

@@ -10,6 +10,15 @@ var expect = chai.expect;
 
 describe('request/route comparison tests', () => {
 
+    it('will match the "/" route path', () => {
+       clearRoutes();
+       addRoute('/');
+       var match = bestReq('/');
+       expect(match).to.exist;
+       expect(match.options.path).to.equal('/'); 
+       clearRoutes();
+    });
+
     it('will add and remove a route', () => {
         addRoute('/sample');
         expect(routes.length).to.equal(1);
