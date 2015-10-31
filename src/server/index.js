@@ -30,6 +30,7 @@ server.on('request', function (message, response) {
         return;
     }
     if (isFile(handler)) {
+        var filePath = handler.file;
         reply.file(filePath);
         return;
     }

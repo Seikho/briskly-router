@@ -39,6 +39,7 @@ server.on('request', (message: http.IncomingMessage, response: http.ServerRespon
     }
 
     if (isFile(handler)) {
+        var filePath = handler.file;
         reply.file(filePath);
         return;
     }
