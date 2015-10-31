@@ -115,12 +115,100 @@ describe('request/route comparison tests', () => {
             expect(match).to.not.exist;
         });
     });
-    
+
+    describe('single array Type tests', () => {
+        it('will return a Part match based on array type', () => {
+            clearRoutes();
+            addRoute('/[12345]');
+            addRoute('/{param: array}');
+            var match = best(request('/[12345]'));
+            expect(match).to.exist;
+            expect(match.options.path).to.equal('/[12345]');
+        });
+
+        it('will return not return a match due to type mismatch', () => {
+            var match = best(request('/word'));
+            expect(match).to.not.exist;
+
+            match = best(request('/123456'));
+            expect(match).to.not.exist;
+
+            match = best(request('/{"a":"foo", "b": "bar", "c": 123 }'));
+            expect(match).to.not.exist;
+        });
+
+        it('will return a single Type match', () => {
+            var match = best(request('/[1,2,3,4,5]'));
+            expect(match).to.exist;
+            expect(match.options.path).to.equal('/{param: array}');
+        });
+
+        it('will not return a match when first part matches and second does not', () => {
+            var match = best(request('/[1,2,3,4]/another-part'));
+            expect(match).to.not.exist;
+        });
+    });
+
+    describe('single object Type tests', () => {
+        it('will return a Part match based on object type', () => {
+            clearRoutes();
+            addRoute('/{param: object}');
+            var match = best(request('/{"a": "foo"}'));
+            expect(match).to.exist;
+            expect(match.options.path).to.equal('/{param: object}');
+        });
+
+        it('will return not return a match due to type mismatch', () => {
+            var match = best(request('/word'));
+            expect(match).to.not.exist;
+
+            match = best(request('/123456'));
+            expect(match).to.not.exist;
+
+            match = best(request('/[1,2,3,4,5]'));
+            expect(match).to.not.exist;
+        });
+
+        it('will not return a match when first part matches and second does not', () => {
+            var match = best(request('/{"a": "foo"}/another-part'));
+            expect(match).to.not.exist;
+        });
+    });
+
     describe('wildcard tests', () => {
-        
+        it('will match all request types to a wildcard', () => {
+            clearRoutes();
+            addRoute('/{...}');
+            expect(bestReq('/a-part').options.path).to.equal('/{...}');
+            expect(bestReq('/12345').options.path).to.equal('/{...}');
+            expect(bestReq('/[1,2,3,4,5]').options.path).to.equal('/{...}');
+            expect(bestReq('/{"a": 1 }').options.path).to.equal('/{...}');
+        });
+
+        it('will match a more specific wildcard route', () => {
+            clearRoutes();
+            addRoute('/a-word/{...}');
+            addRoute('/{...}');
+            expect(bestReq('/a-word/12345').options.path).to.equal('/a-word/{...}');
+        });
+
+        it('will match mixed type, multi-part requests with a catchall route', () => {
+            expect(bestReq('/a-part/12345').options.path).to.equal('/{...}');
+            expect(bestReq('/a-part/[12345,123,123]').options.path).to.equal('/{...}');
+            expect(bestReq('/a-part/another-word').options.path).to.equal('/{...}');
+            expect(bestReq('/a-part/{"a": "foo"}').options.path).to.equal('/{...}');
+            expect(bestReq('/12345/a-word').options.path).to.equal('/{...}');
+            expect(bestReq('/12345/[12345,123,123]').options.path).to.equal('/{...}');
+            expect(bestReq('/12345/another-word').options.path).to.equal('/{...}');
+            expect(bestReq('/12345/{"a": "foo"}').options.path).to.equal('/{...}');
+        });
     });
 
 });
+
+function bestReq(path: string, method?: string) {
+    return best(request(path, method));
+}
 
 function addRoute(path: string, method?: string) {
     method = method || 'get';
