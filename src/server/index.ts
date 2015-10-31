@@ -3,6 +3,7 @@ import routes = require('../routes');
 import match = require('../match');
 import forms = require('formidable');
 import qs = require('querystring');
+import fs = require('fs');
 
 export = server;
 
@@ -51,7 +52,10 @@ function toReply(response: http.ServerResponse) {
 
     reply.file = (filePath: string) => {
         // TODO: Implement me!!
-        reply(filePath);
+        fs.readFile(filePath, 'utf8', (err, data) => {
+            if (err) throw new Error(err.message);
+            reply(data);
+        });
     }
 
     return reply;

@@ -2,6 +2,7 @@ var http = require('http');
 var match = require('../match');
 var forms = require('formidable');
 var qs = require('querystring');
+var fs = require('fs');
 var server = http.createServer();
 server.on('request', function (message, response) {
     var error = false;
@@ -39,7 +40,11 @@ function toReply(response) {
     };
     reply.file = function (filePath) {
         // TODO: Implement me!!
-        reply(filePath);
+        fs.readFile(filePath, 'utf8', function (err, data) {
+            if (err)
+                throw new Error(err.message);
+            reply(data);
+        });
     };
     return reply;
 }
