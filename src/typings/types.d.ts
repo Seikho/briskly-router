@@ -15,6 +15,7 @@ declare module Types {
         query?: any;
         body?: any;
         path: string;
+        wildcard?: string;
     }
 
     interface Reply {
