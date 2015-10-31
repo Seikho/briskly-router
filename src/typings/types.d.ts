@@ -5,8 +5,6 @@ declare module Types {
 
     function route(options: RouteOptions): void;
 
-    function parse(route: string): RouteHandler;
-
     interface RouteHandler {
         (response: Response, reply: Reply): void;
     }
