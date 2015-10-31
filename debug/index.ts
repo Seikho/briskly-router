@@ -10,3 +10,11 @@ router.route({
         directory: './'
     }
 });
+
+router.route({
+    method: 'GET',
+    path: '/home',
+    handler: {
+        file: 'debug/index.html'
+    }
+})
