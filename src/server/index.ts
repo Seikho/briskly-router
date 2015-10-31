@@ -2,6 +2,7 @@ import http = require('http');
 import routes = require('../routes');
 import match = require('../match');
 import forms = require('formidable');
+import errors = require('../errors');
 import qs = require('querystring');
 import fs = require('fs');
 
@@ -45,10 +46,16 @@ function postHandler(message: http.IncomingMessage, response: http.ServerRespons
 
 function toReply(response: http.ServerResponse) {
     var reply: any = (data: any, statusCode?: number) => {
+        if (reply.called)
+            throw new Error(errors.ReplyOnlyOnce)
+        
+        reply.called = true;
         response.statusCode = statusCode || 200;
         response.write(data);
         response.end();
     }
+    
+    reply.called = false;
 
     reply.file = (filePath: string) => {
         // TODO: Implement me!!

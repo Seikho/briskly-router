@@ -1,6 +1,7 @@
 var http = require('http');
 var match = require('../match');
 var forms = require('formidable');
+var errors = require('../errors');
 var qs = require('querystring');
 var fs = require('fs');
 var server = http.createServer();
@@ -34,10 +35,14 @@ function postHandler(message, response, routeHandler, wildcard) {
 }
 function toReply(response) {
     var reply = function (data, statusCode) {
+        if (reply.called)
+            throw new Error(errors.ReplyOnlyOnce);
+        reply.called = true;
         response.statusCode = statusCode || 200;
         response.write(data);
         response.end();
     };
+    reply.called = false;
     reply.file = function (filePath) {
         // TODO: Implement me!!
         fs.readFile(filePath, 'utf8', function (err, data) {
