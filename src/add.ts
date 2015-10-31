@@ -8,7 +8,7 @@ function add(options: Types.RouteOptions) {
     options.method = options.method.toUpperCase();
 
     var matchingParams = parts
-        .some(part => parts.filter(p => p.type != null && p.part === part.part).length > 1);
+        .some(part => parts.filter(p => p.cast != null && p.part === part.part).length > 1);
     
     if (matchingParams)
         throw new Error(errors.MatchingParamNames);
