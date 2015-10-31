@@ -5,6 +5,7 @@ import forms = require('formidable');
 import errors = require('../errors');
 import qs = require('querystring');
 import fs = require('fs');
+import pth = require('path');
 
 export = server;
 
@@ -24,13 +25,33 @@ server.on('request', (message: http.IncomingMessage, response: http.ServerRespon
         response.end('Not found');
         return;
     }
+    
+    var handler = route.options.handler;
+    var reply = toReply(response);
+    if (isDir(handler)) {
+        var filePath = pth.join(handler.directory, stripUpDirs(path));
+        reply.file(filePath);
+        return;
+    }
+    
+    if (isFile(handler)) {
+        reply.file(filePath);
+        return;
+    }
 
     if (method === 'POST') {
         return postHandler(message, response, route.options, wildcard);
     }
-
-    route.options.handler({ query, path, wildcard, body: {} }, toReply(response));
+    
+    if (isFunc(handler)) {
+        handler({ query, path, wildcard, body: {} }, reply);
+    }
 });
+
+function stripUpDirs(path: string) {
+    var split = path.split('/..');
+    return split.filter(s => s !== '').join('');
+}
 
 function postHandler(message: http.IncomingMessage, response: http.ServerResponse, routeHandler: Types.RouteOptions, wildcard: string) {
     var body = '';
@@ -38,7 +59,8 @@ function postHandler(message: http.IncomingMessage, response: http.ServerRespons
     var parsed = parseUrl(message.url);
     var formParser = new forms.IncomingForm();
     var callback = (err, fields) => {
-        routeHandler.handler({ body: fields, path: parsed.path, wildcard, query: {} }, toReply(response));
+        var handler = <Types.RouteHandler>routeHandler.handler;
+        handler({ body: fields, path: parsed.path, wildcard, query: {} }, toReply(response));
     }
 
     formParser.parse(message, callback);
@@ -89,4 +111,16 @@ function getWildcardPath(path: string, route: Types.Route) {
     if (wildcardIndex === -1) return null;
     
     return '/' + split.slice(wildcardIndex).join('/');
+}
+
+function isDir(a: Types.RouteHandler|Types.DirectoryHandler|Types.FileHandler): a is Types.DirectoryHandler {
+    return a['directory'] != null;
+}
+
+function isFile(a: Types.RouteHandler|Types.DirectoryHandler|Types.FileHandler): a is Types.FileHandler {
+    return a['file'] != null;
+}
+
+function isFunc(a: Types.RouteHandler|Types.DirectoryHandler|Types.FileHandler): a is Types.RouteHandler {
+    return typeof a === 'function';
 }

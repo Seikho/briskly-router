@@ -4,6 +4,7 @@ var forms = require('formidable');
 var errors = require('../errors');
 var qs = require('querystring');
 var fs = require('fs');
+var pth = require('path');
 var server = http.createServer();
 server.on('request', function (message, response) {
     var error = false;
@@ -18,18 +19,36 @@ server.on('request', function (message, response) {
         response.end('Not found');
         return;
     }
+    var handler = route.options.handler;
+    var reply = toReply(response);
+    if (isDir(handler)) {
+        var filePath = pth.join(handler.directory, stripUpDirs(path));
+        reply.file(filePath);
+        return;
+    }
+    if (isFile(handler)) {
+        reply.file(filePath);
+        return;
+    }
     if (method === 'POST') {
         return postHandler(message, response, route.options, wildcard);
     }
-    route.options.handler({ query: query, path: path, wildcard: wildcard, body: {} }, toReply(response));
+    if (isFunc(handler)) {
+        handler({ query: query, path: path, wildcard: wildcard, body: {} }, reply);
+    }
 });
+function stripUpDirs(path) {
+    var split = path.split('/..');
+    return split.filter(function (s) { return s !== ''; }).join('');
+}
 function postHandler(message, response, routeHandler, wildcard) {
     var body = '';
     var error = false;
     var parsed = parseUrl(message.url);
     var formParser = new forms.IncomingForm();
     var callback = function (err, fields) {
-        routeHandler.handler({ body: fields, path: parsed.path, wildcard: wildcard, query: {} }, toReply(response));
+        var handler = routeHandler.handler;
+        handler({ body: fields, path: parsed.path, wildcard: wildcard, query: {} }, toReply(response));
     };
     formParser.parse(message, callback);
 }
@@ -70,6 +89,15 @@ function getWildcardPath(path, route) {
     if (wildcardIndex === -1)
         return null;
     return '/' + split.slice(wildcardIndex).join('/');
+}
+function isDir(a) {
+    return a['directory'] != null;
+}
+function isFile(a) {
+    return a['file'] != null;
+}
+function isFunc(a) {
+    return typeof a === 'function';
 }
 module.exports = server;
 //# sourceMappingURL=index.js.map
