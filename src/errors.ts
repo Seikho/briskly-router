@@ -6,5 +6,6 @@ var errors = {
     NoHandler: 'No route handler provided',
     NoPath: 'No route path provided',
     InvalidPath: 'Invalid path provided',
-    InvalidWildCard: 'Invalid wildcard use: Wildcard can only be at the end of a path'
+    InvalidWildCard: 'Invalid wildcard use: Wildcard can only be at the end of a path',
+    MatchingParamNames: 'Invalid route path: Parameter names must be unique'
 };
