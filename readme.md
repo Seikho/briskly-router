@@ -14,7 +14,7 @@ npm install briskly-router --save
 ```javascript
 import BR = require('briskyl-router');
 
-BR.route({ /* options here */};
+BR.route({ /* options here */});
 
 BR.start();
 
