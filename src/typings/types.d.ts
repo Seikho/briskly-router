@@ -10,6 +10,14 @@ declare module Types {
     interface RouteHandler {
         (response: Response, reply: Reply): void;
     }
+    
+    interface DirectoryHandler {
+        directory: string;
+    }
+    
+    interface FileHandler {
+        file: string;
+    }
 
     interface Response {
         query?: any;
@@ -35,7 +43,7 @@ declare module Types {
     interface RouteOptions {
         method: string;
         path: string;
-        handler: RouteHandler;
+        handler: RouteHandler|DirectoryHandler|FileHandler;
     }
 
     interface RoutePart {
