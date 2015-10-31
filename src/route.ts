@@ -19,7 +19,7 @@ function route(options: Types.RouteOptions) {
     var wildcardCount = parts.filter(p => p.type === 'wildcard').length;
     if (wildcardCount > 1) throw new Error(errors.InvalidWildCard);
     
-    var wildcardBeforeEnd = parts.some((part, index) => part.type === 'wildcard' && index !== length);
+    var wildcardBeforeEnd = parts.some((part, index) => part.type === 'wildcard' && index !== length - 1);
     if (wildcardBeforeEnd) throw new Error(errors.InvalidWildCard);
 
     routes.push({

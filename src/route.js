@@ -19,7 +19,7 @@ function route(options) {
     var wildcardCount = parts.filter(function (p) { return p.type === 'wildcard'; }).length;
     if (wildcardCount > 1)
         throw new Error(errors.InvalidWildCard);
-    var wildcardBeforeEnd = parts.some(function (part, index) { return part.type === 'wildcard' && index !== length; });
+    var wildcardBeforeEnd = parts.some(function (part, index) { return part.type === 'wildcard' && index !== length - 1; });
     if (wildcardBeforeEnd)
         throw new Error(errors.InvalidWildCard);
     routes.push({
