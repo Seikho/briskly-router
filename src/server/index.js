@@ -9,27 +9,28 @@ server.on('request', function (message, response) {
     var parsedUrl = parseUrl(message.url);
     var path = parsedUrl.path;
     var query = parsedUrl.query;
-    var routeHandler = match(path, method);
-    if (method === 'POST') {
-        return postHandler(message, response, routeHandler);
-    }
-    if (!routeHandler) {
+    var route = match(path, method);
+    var wildcard = getWildcardPath(path, route);
+    if (!route) {
         response.statusCode = 404;
         response.end('Not found');
         return;
     }
-    routeHandler.handler({ query: query, path: path }, toReply(response));
+    if (method === 'POST') {
+        return postHandler(message, response, route.options, wildcard);
+    }
+    route.options.handler({ query: query, path: path, wildcard: wildcard, body: {} }, toReply(response));
 });
-var postHandler = function (message, response, routeHandler) {
+function postHandler(message, response, routeHandler, wildcard) {
     var body = '';
     var error = false;
     var parsed = parseUrl(message.url);
     var formParser = new forms.IncomingForm();
     var callback = function (err, fields) {
-        routeHandler.handler({ body: fields, path: parsed.path }, toReply(response));
+        routeHandler.handler({ body: fields, path: parsed.path, wildcard: wildcard, query: {} }, toReply(response));
     };
     formParser.parse(message, callback);
-};
+}
 function toReply(response) {
     var reply = function (data, statusCode) {
         response.statusCode = statusCode || 200;
@@ -52,6 +53,13 @@ function parseUrl(url) {
     var path = url.slice(0, end);
     var query = qs.parse(url.slice(end + 1));
     return { path: path, query: query };
+}
+function getWildcardPath(path, route) {
+    var split = path.split('/');
+    var wildcardIndex = route.parts.reduce(function (prev, curr, i) { return curr.type === 'wildcard' ? i : prev; }, -1);
+    if (wildcardIndex === -1)
+        return null;
+    return '/' + split.slice(wildcardIndex).join('/');
 }
 module.exports = server;
 //# sourceMappingURL=index.js.map

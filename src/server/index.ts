@@ -15,31 +15,30 @@ server.on('request', (message: http.IncomingMessage, response: http.ServerRespon
     var path = parsedUrl.path;
     var query = parsedUrl.query;
 
-    var routeHandler = match(path, method);
-
-    if (method === 'POST') {
-        return postHandler(message, response, routeHandler);
-    }
-
-    if (!routeHandler) {
+    var route = match(path, method);
+    var wildcard = getWildcardPath(path, route);
+    if (!route) {
         response.statusCode = 404;
         response.end('Not found');
         return;
     }
 
-    routeHandler.handler({ query, path }, toReply(response));
+    if (method === 'POST') {
+        return postHandler(message, response, route.options, wildcard);
+    }
+
+    route.options.handler({ query, path, wildcard, body: {} }, toReply(response));
 });
 
-var postHandler = (message: http.IncomingMessage, response: http.ServerResponse, routeHandler: Types.RouteOptions) => {
+function postHandler(message: http.IncomingMessage, response: http.ServerResponse, routeHandler: Types.RouteOptions, wildcard: string) {
     var body = '';
     var error = false;
     var parsed = parseUrl(message.url);
     var formParser = new forms.IncomingForm();
-        
     var callback = (err, fields) => {
-        routeHandler.handler({ body: fields, path: parsed. path }, toReply(response));
+        routeHandler.handler({ body: fields, path: parsed.path, wildcard, query: {} }, toReply(response));
     }
-    
+
     formParser.parse(message, callback);
 }
 
@@ -70,4 +69,13 @@ function parseUrl(url: string) {
     var query = qs.parse(url.slice(end + 1));
 
     return { path, query };
+}
+
+function getWildcardPath(path: string, route: Types.Route) {
+    var split = path.split('/');
+    var wildcardIndex = route.parts.reduce((prev, curr, i) => curr.type === 'wildcard' ? i : prev, -1);
+    
+    if (wildcardIndex === -1) return null;
+    
+    return '/' + split.slice(wildcardIndex).join('/');
 }
