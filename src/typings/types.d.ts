@@ -22,6 +22,7 @@ declare module Types {
     interface Response {
         query?: any;
         body?: any;
+        params?: any;
         path: string;
         wildcard?: string;
     }
