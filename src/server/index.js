@@ -5,6 +5,7 @@ var errors = require('../errors');
 var qs = require('querystring');
 var fs = require('fs');
 var pth = require('path');
+var logger = require('ls-logger');
 var server = http.createServer();
 server.on('request', function (message, response) {
     var error = false;
@@ -13,12 +14,12 @@ server.on('request', function (message, response) {
     var path = parsedUrl.path;
     var query = parsedUrl.query;
     var route = match(path, method);
-    var wildcard = getWildcardPath(path, route);
     if (!route) {
         response.statusCode = 404;
         response.end('Not found');
         return;
     }
+    var wildcard = getWildcardPath(path, route);
     var handler = route.options.handler;
     var reply = toReply(response);
     if (isDir(handler)) {
@@ -55,7 +56,7 @@ function postHandler(message, response, routeHandler, wildcard) {
 function toReply(response) {
     var reply = function (data, statusCode) {
         if (reply.called)
-            throw new Error(errors.ReplyOnlyOnce);
+            return logger.error(errors.ReplyOnlyOnce);
         reply.called = true;
         response.statusCode = statusCode || 200;
         response.write(data);
@@ -66,7 +67,7 @@ function toReply(response) {
         // TODO: Implement me!!
         fs.readFile(filePath, 'utf8', function (err, data) {
             if (err)
-                throw new Error(err.message);
+                return reply("Unable to load file: " + filePath, 404);
             reply(data);
         });
     };

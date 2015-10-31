@@ -6,6 +6,7 @@ import errors = require('../errors');
 import qs = require('querystring');
 import fs = require('fs');
 import pth = require('path');
+import logger = require('ls-logger');
 
 export = server;
 
@@ -19,13 +20,16 @@ server.on('request', (message: http.IncomingMessage, response: http.ServerRespon
     var query = parsedUrl.query;
 
     var route = match(path, method);
-    var wildcard = getWildcardPath(path, route);
+
     if (!route) {
         response.statusCode = 404;
         response.end('Not found');
         return;
     }
-    
+
+    var wildcard = getWildcardPath(path, route);
+
+
     var handler = route.options.handler;
     var reply = toReply(response);
     if (isDir(handler)) {
@@ -33,7 +37,7 @@ server.on('request', (message: http.IncomingMessage, response: http.ServerRespon
         reply.file(filePath);
         return;
     }
-    
+
     if (isFile(handler)) {
         reply.file(filePath);
         return;
@@ -42,7 +46,7 @@ server.on('request', (message: http.IncomingMessage, response: http.ServerRespon
     if (method === 'POST') {
         return postHandler(message, response, route.options, wildcard);
     }
-    
+
     if (isFunc(handler)) {
         handler({ query, path, wildcard, body: {} }, reply);
     }
@@ -69,20 +73,20 @@ function postHandler(message: http.IncomingMessage, response: http.ServerRespons
 function toReply(response: http.ServerResponse) {
     var reply: any = (data: any, statusCode?: number) => {
         if (reply.called)
-            throw new Error(errors.ReplyOnlyOnce)
-        
+            return logger.error(errors.ReplyOnlyOnce);
+
         reply.called = true;
         response.statusCode = statusCode || 200;
         response.write(data);
         response.end();
     }
-    
+
     reply.called = false;
 
     reply.file = (filePath: string) => {
         // TODO: Implement me!!
         fs.readFile(filePath, 'utf8', (err, data) => {
-            if (err) throw new Error(err.message);
+            if (err) return reply(`Unable to load file: ${filePath}`, 404);
             reply(data);
         });
     }
@@ -107,20 +111,20 @@ function parseUrl(url: string) {
 function getWildcardPath(path: string, route: Types.Route) {
     var split = path.split('/');
     var wildcardIndex = route.parts.reduce((prev, curr, i) => curr.type === 'wildcard' ? i : prev, -1);
-    
+
     if (wildcardIndex === -1) return null;
-    
+
     return '/' + split.slice(wildcardIndex).join('/');
 }
 
-function isDir(a: Types.RouteHandler|Types.DirectoryHandler|Types.FileHandler): a is Types.DirectoryHandler {
+function isDir(a: Types.RouteHandler | Types.DirectoryHandler | Types.FileHandler): a is Types.DirectoryHandler {
     return a['directory'] != null;
 }
 
-function isFile(a: Types.RouteHandler|Types.DirectoryHandler|Types.FileHandler): a is Types.FileHandler {
+function isFile(a: Types.RouteHandler | Types.DirectoryHandler | Types.FileHandler): a is Types.FileHandler {
     return a['file'] != null;
 }
 
-function isFunc(a: Types.RouteHandler|Types.DirectoryHandler|Types.FileHandler): a is Types.RouteHandler {
+function isFunc(a: Types.RouteHandler | Types.DirectoryHandler | Types.FileHandler): a is Types.RouteHandler {
     return typeof a === 'function';
 }
