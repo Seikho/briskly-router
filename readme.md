@@ -53,6 +53,18 @@ See: [Routing](#routing) [RouteOptions](#routeoptions)
 ```javascript
 function route(options: RouteOptions)
 ```
+Examples
+```javascript
+route({ method: 'get', path: '/scripts/{...}', handler: directory: { 'front/scripts' } });
+
+route({ method: 'get', path: '/api/users', handler: (req, reply) => getUsers.then(reply) });
+
+route({ method: 'get', path: '/api/user/{id: number}', handler: (req, reply) => getUser(req.params.id).then(reply) });
+
+route({ method: 'get', path: '/api/user/{name: string}', handler: (req, reply) => getUserByName(req.params.name).then(reply) });
+
+route({ method: 'get', path: '/', handler: { file: 'front/index.html' } });
+```
 
 #### start
 See: [briskly.json](#briskly-json)  
