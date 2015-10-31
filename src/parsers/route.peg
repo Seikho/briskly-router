@@ -6,7 +6,7 @@ Word
  = w:([a-zA-Z0-9\-]+) { return w.join('') }
 
 Part
- = Sep r:(Route / Wildcard / Parameter) { return r }
+ = Sep _ r:(Route / Wildcard / Parameter) _ { return r }
 
 Route
  = w:Word { return { type:'route', part: w, cast: null } }
