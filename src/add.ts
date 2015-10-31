@@ -4,6 +4,17 @@ import errors = require('./errors')
 export = add;
 
 function add(options: Types.RouteOptions) {
+    if (options.path === '/') {
+        var alreadyExists = routes.some(r => r.options.path === '/');
+        if (alreadyExists) return;
+        
+        routes.push({
+            options,
+            parts: []            
+        });
+        return;
+    }
+    
     var parts = routeParser(options.path);
     options.method = options.method.toUpperCase();
 

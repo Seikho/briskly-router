@@ -1,6 +1,9 @@
 var compare = require('./compare');
 var routes = require('../routes');
 function bestMatch(request) {
+    var exactPathMatch = getExactPathMatch(request.path);
+    if (exactPathMatch)
+        return exactPathMatch;
     var comparisons = routes
         .filter(function (r) { return r.options.method === request.method; })
         .map(function (route) { return compare(request, route); })
@@ -47,6 +50,10 @@ function toComparison(matches, index) {
         index: index,
         matches: matches
     };
+}
+function getExactPathMatch(path) {
+    var exact = routes.filter(function (r) { return r.options.path === path; })[0];
+    return exact;
 }
 var matchPriority = [
     0 /* Part */,

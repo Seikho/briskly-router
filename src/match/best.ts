@@ -4,6 +4,9 @@ import Match = Types.Match;
 export = bestMatch;
 
 function bestMatch(request: Types.Request): Types.Route {
+    var exactPathMatch = getExactPathMatch(request.path);
+    if (exactPathMatch) return exactPathMatch;
+    
     var comparisons = routes
         .filter(r => r.options.method === request.method)
         .map(route => compare(request, route))
@@ -60,6 +63,11 @@ function toComparison(matches: Array<Match>, index: number) {
         index,
         matches
     };
+}
+
+function getExactPathMatch(path: string) {
+    var exact = routes.filter(r => r.options.path === path)[0];
+    return exact;
 }
 
 var matchPriority = [

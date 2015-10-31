@@ -2,6 +2,16 @@ var routes = require('./routes');
 var routeParser = require('./parsers/route');
 var errors = require('./errors');
 function add(options) {
+    if (options.path === '/') {
+        var alreadyExists = routes.some(function (r) { return r.options.path === '/'; });
+        if (alreadyExists)
+            return;
+        routes.push({
+            options: options,
+            parts: []
+        });
+        return;
+    }
     var parts = routeParser(options.path);
     options.method = options.method.toUpperCase();
     var matchingParams = parts
