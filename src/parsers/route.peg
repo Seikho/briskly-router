@@ -3,7 +3,7 @@ Expression
  / Sep
 
 Word 
- = w:([a-zA-Z0-9\-"'_ !@#$%^&\\[\]*()+=\;<>?\\`~]+) { return w.join('') }
+ = w:([a-zA-Z0-9\-"'_ !@#$%^&\\[\]*()+=\;<>\\`~]+) { return w.join('') }
 
 Part
  = Sep r:(Wildcard / Parameter/ Route) { return r }
