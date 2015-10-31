@@ -3,10 +3,10 @@ Expression
  / Sep
 
 Word 
- = w:([a-zA-Z0-9\-]+) { return w.join('') }
+ = w:([a-zA-Z0-9\-"'_ !@#$%^&\\[\]*()+=\;<>?\\`~]+) { return w.join('') }
 
 Part
- = Sep r:(Route / Wildcard / Parameter) { return r }
+ = Sep r:(Wildcard / Parameter/ Route) { return r }
 
 Route
  = w:Word { return { type:'route', part: w, cast: null } }
