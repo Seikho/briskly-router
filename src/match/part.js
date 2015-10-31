@@ -1,14 +1,15 @@
 function isMatch(request, route) {
-    var safeRoute = route || { type: 'wildcard', part: '*' };
-    if (safeRoute.type === 'route')
-        return request.part === safeRoute.part
+    if (route == null)
+        return null;
+    if (route.type === 'route')
+        return request.part === route.part
             ? 0 /* Part */
             : 3 /* None */;
-    if (safeRoute == null || safeRoute.type === 'wildcard')
+    if (route.type === 'wildcard')
         return 4 /* Wildcard */;
-    if (safeRoute.cast === 'any')
+    if (route.cast === 'any')
         return 2 /* Any */;
-    return safeRoute.cast === request.cast
+    return route.cast === request.cast
         ? 1 /* Type */
         : 3 /* None */;
 }

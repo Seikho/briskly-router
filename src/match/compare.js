@@ -4,7 +4,9 @@ function compare(request, route) {
     var hasWildcard = route.parts.some(function (r) { return r.type === 'wildcard'; });
     if (!sameLength && !hasWildcard)
         return null;
-    var matches = request.parts.map(function (part, i) { return matchPart(part, route.parts[i]); });
+    var matches = request.parts
+        .map(function (part, i) { return matchPart(part, route.parts[i]); })
+        .filter(function (part) { return part != null; });
     var hasNone = matches.some(function (match) { return match === 3 /* None */; });
     if (hasNone)
         return null;
