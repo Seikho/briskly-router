@@ -1,6 +1,6 @@
 var request = require('../src/match/request');
 var best = require('../src/match/best');
-var add = require('../src/add');
+var add = require('../src/route');
 var routes = require('../src/routes');
 var chai = require('chai');
 var expect = chai.expect;

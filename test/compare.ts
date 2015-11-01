@@ -2,7 +2,7 @@ import compare = require('../src/match/compare');
 import route = require('../src/parsers/route');
 import request = require('../src/match/request');
 import best = require('../src/match/best');
-import add = require('../src/add');
+import add = require('../src/route');
 import routes = require('../src/routes');
 import * as chai from 'chai'
 import Match = Types.Match;
