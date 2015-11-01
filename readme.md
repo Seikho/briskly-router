@@ -33,6 +33,11 @@ BR.start();
 
 BR.stop();
 ```
+
+### Configuration
+The configuration `port` and `host` can be configured in code or in [briskly.json](#brisklyjson).  
+**NB**: The configuration in code will override `briskly.json`.  
+See [connection(...)](#connection) 
   
 ### Briskly JSON
 The `port` and `host` can be defined in `briskly.json`.
