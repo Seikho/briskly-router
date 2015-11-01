@@ -14,7 +14,18 @@ npm install briskly-router --save
 ```javascript
 import BR = require('briskyl-router');
 
-BR.route({ /* options here */});
+BR.connection({
+    port: 2189,
+    host: 'localhost'
+});
+
+BR.route({
+    method: 'GET',
+    path: '/',
+    handler: {
+        file: 'front/index.html'
+    }
+});
 
 BR.start();
 
@@ -24,7 +35,13 @@ BR.stop();
 ```
   
 ### Briskly JSON
-The `port` must be defined in `briskly.json`. 
+The `port` and `host` can be defined in `briskly.json`.
+```json
+{
+    "host": "localhost",
+    "port": 2189
+}
+``` 
 Exmaple: See the this sample [briskly.json](https://github.com/Seikho/briskly/blob/master/briskly.json).
 
 ### Routing
@@ -66,18 +83,33 @@ route({ method: 'get', path: '/api/user/{name: string}', handler: (req, reply) =
 route({ method: 'get', path: '/', handler: { file: 'front/index.html' } });
 ```
 
+#### connection
+See: [ServerOptions](#serveroptions)  
+Set the listening port and/or host
+```javascript
+function connection(options: ServerOptions): void;
+``` 
+
 #### start
 See: [briskly.json](#briskly-json)  
 Starts the web server listener.  
 This will parse `briskly.json` and use the `port` key
 ```javascript
-function start(callback: () => void);
+function start(callback: () => void): void;
 ```
 
 #### stop
 Stops the web server listener.  
 ```javascript
-function stop(callback: () => void);
+function stop(callback: () => void): void;
+```
+
+#### ServerOptions
+```javascript
+interface ServerOptions {
+    port?: number;
+    host?: string;
+}
 ```
 
 #### RouteOptions
