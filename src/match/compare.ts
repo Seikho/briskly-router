@@ -12,7 +12,7 @@ function compare(request: Types.Request, route: Types.Route): Array<Match> {
         .map((part, i) => matchPart(part, route.parts[i]));
 
     if (hasWildcard)
-        matches.map(m => m == null ? Match.Wildcard : m);
+        matches = matches.map(m => m == null ? Match.Wildcard : m);
 
     var hasNone = matches.some(match => match === Match.None);
     if (hasNone) return null;
