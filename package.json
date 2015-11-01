@@ -1,6 +1,6 @@
 {
   "name": "briskly-router",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "briskly route handler",
   "main": "src/index",
   "scripts": {
