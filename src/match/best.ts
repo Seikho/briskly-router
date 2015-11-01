@@ -18,11 +18,8 @@ function bestMatch(request: Types.Request): Types.Route {
     for (var i = 0; i < request.parts.length; i++) {
         var forMatches = (comparator: Match) => (comparison: Comparison) => {
             var exactMatch = comparison.matches[i] === comparator;
-
-            var lastMatch = comparison.matches[comparison.matches.length - 1];
-            var wildcardMatch = lastMatch === Match.Wildcard;
-
-            return exactMatch || wildcardMatch;
+            
+            return exactMatch;
         }
         var exactMatches = [];
 
@@ -36,7 +33,7 @@ function bestMatch(request: Types.Request): Types.Route {
         if (exactMatches.length === 0) return null;
         matches = exactMatches.slice();
     }
-
+    
     if (matches.length > 1) {
         // Ambiguous match -- can occur when using wildcards
         
@@ -73,7 +70,8 @@ function getExactPathMatch(path: string) {
 var matchPriority = [
     Match.Part,
     Match.Type,
-    Match.Any
+    Match.Any,
+    Match.Wildcard
 ];
 
 interface Comparison {

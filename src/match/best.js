@@ -13,9 +13,7 @@ function bestMatch(request) {
     for (var i = 0; i < request.parts.length; i++) {
         var forMatches = function (comparator) { return function (comparison) {
             var exactMatch = comparison.matches[i] === comparator;
-            var lastMatch = comparison.matches[comparison.matches.length - 1];
-            var wildcardMatch = lastMatch === 4 /* Wildcard */;
-            return exactMatch || wildcardMatch;
+            return exactMatch;
         }; };
         var exactMatches = [];
         for (var key in matchPriority) {
@@ -58,7 +56,8 @@ function getExactPathMatch(path) {
 var matchPriority = [
     0 /* Part */,
     1 /* Type */,
-    2 /* Any */
+    2 /* Any */,
+    4 /* Wildcard */
 ];
 module.exports = bestMatch;
 //# sourceMappingURL=best.js.map
