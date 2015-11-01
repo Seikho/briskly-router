@@ -21,7 +21,7 @@ server.on('request', function (message, response) {
         return;
     }
     var wildcard = getWildcardPath(path, route);
-    var params = getParameters(path);
+    var params = getParameters(path, route.parts);
     var handler = route.options.handler;
     var reply = toReply(response);
     if (isDir(handler)) {
@@ -41,13 +41,13 @@ server.on('request', function (message, response) {
         handler({ query: query, path: path, wildcard: wildcard, body: {}, params: params }, reply);
     }
 });
-function getParameters(path) {
+function getParameters(path, routeParts) {
     var request = toRequest(path);
     var parameters = {};
-    var parts = request.parts.forEach(function (part) {
+    var parts = routeParts.forEach(function (part, i) {
         if (part.cast == null)
             return;
-        parameters[part.part] = part.value;
+        parameters[part.part] = request.parts[i].value;
     });
     return parameters;
 }

@@ -29,7 +29,7 @@ server.on('request', (message: http.IncomingMessage, response: http.ServerRespon
     }
 
     var wildcard = getWildcardPath(path, route);
-    var params = getParameters(path);
+    var params = getParameters(path, route.parts);
     var handler = route.options.handler;
     var reply = toReply(response);
     if (isDir(handler)) {
@@ -53,14 +53,13 @@ server.on('request', (message: http.IncomingMessage, response: http.ServerRespon
     }
 });
 
-function getParameters(path: string) {
+function getParameters(path: string, routeParts: Types.RoutePart[]) {
     var request = toRequest(path);
     var parameters: any = {};
-    var parts = request.parts.forEach(part => {
+    var parts = routeParts.forEach((part, i) => {
        if (part.cast == null) return;
-       parameters[part.part] = part.value;
+       parameters[part.part] = request.parts[i].value;
     });
-    
     return parameters;
 }
 
