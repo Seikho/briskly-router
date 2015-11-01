@@ -4,6 +4,13 @@ declare module Types {
     function stop(callback?: Callback);
 
     function route(options: RouteOptions): void;
+    
+    function connection(options: ServerOptions): void;
+    
+    interface ServerOptions {
+        port?: number;
+        host?: string;
+    }
 
     interface RouteHandler {
         (response: Response, reply: Reply): void;
