@@ -50,8 +50,16 @@ The `port` and `host` can be defined in `briskly.json`.
 Exmaple: See the this sample [briskly.json](https://github.com/Seikho/briskly/blob/master/briskly.json).
 
 ### Routing
-A route is defined by its `parts`.
-Example: `/part1/part2/part3/part4  
+A route is defined by its `parts` which are separated by a forward slash (`/`).  
+Routes **do not** need to be defined in order and will always use the **most specific route** 
+An example route table: 
+- `/`
+- `/{...}` -- A catch all route that will match where everything else does not
+- `/scripts/{...}` -- Will match `/scripts/[anything here]/[and here...]/so on..`
+- `/users/{id: number}` -- Will match `/users/42`
+- `/users/{name: string}`  -- Will match `/users/seikho`
+- `/users` -- Will only `/users`
+  
 Allowed parts:
 - **Part**: An exact string. E.g. `/my-home`
 - **Parameters**:
@@ -172,6 +180,9 @@ interface Reply {
 
 ### TODOS
 - Disallow ambiguous routes
+- Allow `catch`/`error` handlers
+ - Provide a default catch handler
+ - Provide specific catch folders for routes
 
 ### License
 MIT
