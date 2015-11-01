@@ -10,9 +10,19 @@ router.route({
 });
 router.route({
     method: 'GET',
-    path: '/home',
+    path: '/',
     handler: {
         file: 'debug/index.html'
     }
+});
+router.route({
+    method: 'GET',
+    path: '/users/{id: number}',
+    handler: function (req, reply) { return reply("User id: " + req.params.id); }
+});
+router.route({
+    method: 'GET',
+    path: '/users/{name: string}',
+    handler: function (req, reply) { return reply("Username: " + req.params.name); }
 });
 //# sourceMappingURL=index.js.map

@@ -13,8 +13,21 @@ router.route({
 
 router.route({
     method: 'GET',
-    path: '/home',
+    path: '/',
     handler: {
         file: 'debug/index.html'
     }
-})
+});
+
+router.route({
+    method: 'GET',
+    path: '/users/{id: number}',
+    handler: (req, reply) => reply(`User id: ${req.params.id}`)
+});
+
+router.route({
+    method: 'GET',
+    path: '/users/{name: string}',
+    handler: (req, reply) => reply(`Username: ${req.params.name}`)
+});
+
