@@ -31,3 +31,8 @@ router.route({
     handler: (req, reply) => reply(`Username: ${req.params.name}`)
 });
 
+router.route({
+    method: 'GET',
+    path: '/users/create/{name: string}/{email: string}',
+    handler: (req, reply) => reply(`Name: ${req.params.name}, Email: ${req.params.email}`)
+});
