@@ -10,6 +10,7 @@ declare module Types {
     interface ServerOptions {
         port?: number;
         host?: string;
+        error?: RouteHandler|DirectoryHandler|FileHandler;
     }
 
     interface RouteHandler {
@@ -50,6 +51,7 @@ declare module Types {
         method: string;
         path: string;
         handler: RouteHandler|DirectoryHandler|FileHandler;
+        error?: RouteHandler|DirectoryHandler|FileHandler;
     }
 
     interface RoutePart {
