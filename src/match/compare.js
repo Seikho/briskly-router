@@ -5,8 +5,9 @@ function compare(request, route) {
     if (!sameLength && !hasWildcard)
         return null;
     var matches = request.parts
-        .map(function (part, i) { return matchPart(part, route.parts[i]); })
-        .filter(function (part) { return part != null; });
+        .map(function (part, i) { return matchPart(part, route.parts[i]); });
+    if (hasWildcard)
+        matches.map(function (m) { return m == null ? 4 /* Wildcard */ : m; });
     var hasNone = matches.some(function (match) { return match === 3 /* None */; });
     if (hasNone)
         return null;

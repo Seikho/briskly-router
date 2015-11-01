@@ -9,8 +9,10 @@ function compare(request: Types.Request, route: Types.Route): Array<Match> {
     if (!sameLength && !hasWildcard) return null;
 
     var matches = request.parts
-        .map((part, i) => matchPart(part, route.parts[i]))
-        .filter(part => part != null);
+        .map((part, i) => matchPart(part, route.parts[i]));
+
+    if (hasWildcard)
+        matches.map(m => m == null ? Match.Wildcard : m);
 
     var hasNone = matches.some(match => match === Match.None);
     if (hasNone) return null;
