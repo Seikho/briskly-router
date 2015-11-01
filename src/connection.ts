@@ -1,4 +1,4 @@
-export var port = 2189;
+export var port: number = null;
 
 export var host = 'localhost';
 

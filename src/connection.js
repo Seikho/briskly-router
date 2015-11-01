@@ -1,4 +1,4 @@
-exports.port = 2189;
+exports.port = null;
 exports.host = 'localhost';
 function connection(options) {
     if (options.port)
