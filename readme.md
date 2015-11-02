@@ -1,8 +1,16 @@
 ### Briskly-Router
-Route handling for Node with Types
+Route handling for Node with types!
 
 [![NPM version](http://img.shields.io/npm/v/briskly-router.svg?style=flat)](https://www.npmjs.org/package/briskly-router)
 [![Travis build status](https://travis-ci.org/Seikho/briskly-router.svg?branch=master)](https://travis-ci.org/Seikho/briskly-router)
+
+### Types???
+See: [Routing](#routing)   
+Types annotations are allowed in route parameters to define more granular routes.  
+For example: Given the routes `/users/{id: number}` and `/users/{id: string}`  
+A request to `/users/123` will only match the `{id: number}` route.  
+A request to `/users/seikho` will only match the `{id: string}` route.  
+Since we have no route that matches an `array` or `object`, `/users/[1,2,3]` will not match either route.
 
 ### Installation
 ```
@@ -25,6 +33,12 @@ BR.route({
     handler: {
         file: 'front/index.html'
     }
+});
+
+BR.route({
+    method: 'GET',
+    path: '/users/{id: number}',
+    handler: (request, reply) => getUserById(request.params.id).then(reply)
 });
 
 BR.start();
