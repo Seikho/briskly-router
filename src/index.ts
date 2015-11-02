@@ -1,11 +1,24 @@
-import conn = require('./connection');
+import connection = require('./connection');
+import route = require('./route');
+import server = require('./server');
+import start = require('./server/start');
+import stop = require('./server/stop');
+var pkg = require('../package.json');
 
-export import route = require('./route');
+export = api;
 
-export import server = require('./server');
+var api = {
+    route,
+    server,
+    start,
+    stop,
+    connection: connection.connection,
+    version: <string>null
+};
 
-export import start = require('./server/start');
+Object.defineProperty(api, 'version', {
+    get: () => pkg.version
+});
 
-export import stop = require('./server/stop');
 
-export var connection = conn.connection;
+
