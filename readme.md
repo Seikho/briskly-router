@@ -197,7 +197,12 @@ interface Reply {
 - Allow `catch`/`error` handlers
  - Provide a default catch handler
  - Provide specific catch folders for routes
-- Allow optional parameters
+- Consider optional parameters
+- Restrict parameter names to valid JavaScript object names
+- Consider prefix and suffix values on route parameter parts. E.g.:
+ - `/scripts/{name: string}.js`
+ - `/prefix-{param}-suffix`
+- Create API for middleware
 
 ### License
 MIT
