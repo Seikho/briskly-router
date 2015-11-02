@@ -7,6 +7,8 @@ declare module Types {
     
     function connection(options: ServerOptions): void;
     
+    var version: string;
+    
     interface ServerOptions {
         port?: number;
         host?: string;
