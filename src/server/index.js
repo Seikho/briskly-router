@@ -71,17 +71,24 @@ function toReply(response) {
         if (reply.called)
             return logger.error(errors.ReplyOnlyOnce);
         reply.called = true;
-        response.statusCode = statusCode || 200;
-        response.write(data);
-        response.end();
+        statusCode = statusCode || 200;
+        response.writeHead(statusCode, { 'Content-Type': 'application/json' });
+        response.end(JSON.stringify(data));
+        return;
     };
     reply.called = false;
     reply.file = function (filePath) {
-        // TODO: Implement me!!
+        reply.called = true;
         fs.readFile(filePath, 'utf8', function (err, data) {
-            if (err)
-                return reply("Unable to load file: " + filePath, 404);
-            reply(data);
+            if (err) {
+                console.log('404');
+                response.statusCode = 404;
+                response.write("Unable to load file: " + filePath);
+                response.end();
+                return;
+            }
+            console.log('here');
+            response.end(data);
         });
     };
     return reply;

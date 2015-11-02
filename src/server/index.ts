@@ -57,8 +57,8 @@ function getParameters(path: string, routeParts: Types.RoutePart[]) {
     var request = toRequest(path);
     var parameters: any = {};
     var parts = routeParts.forEach((part, i) => {
-       if (part.cast == null) return;
-       parameters[part.part] = request.parts[i].value;
+        if (part.cast == null) return;
+        parameters[part.part] = request.parts[i].value;
     });
     return parameters;
 }
@@ -87,18 +87,26 @@ function toReply(response: http.ServerResponse) {
             return logger.error(errors.ReplyOnlyOnce);
 
         reply.called = true;
-        response.statusCode = statusCode || 200;
-        response.write(data);
-        response.end();
+        statusCode = statusCode || 200;
+        response.writeHead(statusCode, { 'Content-Type': 'application/json' });
+        response.end(JSON.stringify(data));
+        return;
     }
 
     reply.called = false;
 
     reply.file = (filePath: string) => {
-        // TODO: Implement me!!
+        reply.called = true;
         fs.readFile(filePath, 'utf8', (err, data) => {
-            if (err) return reply(`Unable to load file: ${filePath}`, 404);
-            reply(data);
+            if (err) {
+                console.log('404');
+                response.statusCode = 404;
+                response.write(`Unable to load file: ${filePath}`);
+                response.end();
+                return;
+            }
+            console.log('here');
+            response.end(data);
         });
     }
 
