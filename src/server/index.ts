@@ -56,9 +56,20 @@ server.on('request', (message: http.IncomingMessage, response: http.ServerRespon
 function getParameters(path: string, routeParts: Types.RoutePart[]) {
     var request = toRequest(path);
     var parameters: any = {};
-    var parts = routeParts.forEach((part, i) => {
+    var parts = routeParts.forEach((part, i) => {        
         if (part.cast == null) return;
-        parameters[part.part] = request.parts[i].value;
+        var value = request.parts[i].value;
+        
+        if (part.type === 'multi') {
+            var pfx = (part.prefix || '').length;
+            var sfx = (part.suffix || '').length;
+            
+            if (pfx === 0) value = part.part.slice(0, -sfx);
+            else if (sfx === 0) value = part.part.slice(pfx);
+            else value = part.part.slice(pfx, -sfx);
+        }
+        
+        parameters[part.part] = value;
     });
     return parameters;
 }
