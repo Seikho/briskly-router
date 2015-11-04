@@ -53,7 +53,7 @@ describe('request parsing', () => {
         var parts = request('/first/{ "foo": "bar", "baz": [1,2,3]}');
         testType(parts[0], 'string', 'first');
         testType(parts[1], 'object', { foo: 'bar', baz: [1, 2, 3] });
-    });
+    });   
 });
 
 describe('route parsing tests', () => {
@@ -86,6 +86,11 @@ describe('route parsing tests', () => {
         it('will return an any type', () => {
             var r = route('/{param:any}');
             testPart(r[0], 'parameter', 'any');
+        });
+
+        it('will return a multi type', () => {
+            var r = route('/prefix{myParam: any}suffix');
+            testPart(r[0], 'multi', 'any');
         });
     })
 

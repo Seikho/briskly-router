@@ -71,6 +71,10 @@ describe('route parsing tests', function () {
             var r = route('/{param:any}');
             testPart(r[0], 'parameter', 'any');
         });
+        it('will return a multi type', function () {
+            var r = route('/prefix{myParam: any}suffix');
+            testPart(r[0], 'multi', 'any');
+        });
     });
 });
 function testPart(part, type, cast) {
