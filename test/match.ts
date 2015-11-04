@@ -150,7 +150,44 @@ describe('request/part comparison tests', () => {
             var rt = route('/{param: any}');
             testMatch(req[0], rt[0], Match.Any);
         });
+    });
 
+    describe('multi part tests', () => {
+        it('will match a route multi (prefix and suffix) with request part', () => {
+            var rt = route('/pre{param}post');
+            var req = request('/preSOMEWORDSpost');
+            testMatch(req[0], rt[0], Match.Multi);
+        });
+
+        it('will match a route multi (prefix only) with request part', () => {
+            var rt = route('/pre{param: number}');
+            var req = request('/pre1234');
+            testMatch(req[0], rt[0], Match.Multi);
+        });
+        
+        it('will match a route multi (suffix only) with request part', () => {
+            var rt = route('/{param: number}post-word');
+            var req = request('/1234post-word');
+            testMatch(req[0], rt[0], Match.Multi);
+        });
+
+        it('will not match a route multi with a request part where prefix is not the same', () => {
+            var rt = route('/pre{param}post');
+            var req = request('/proSOMEWORDSpost');
+            testMatch(req[0], rt[0], Match.None);
+        });
+
+        it('will not match a route multi with a request part where suffix is not the same', () => {
+            var rt = route('/pre{param}post');
+            var req = request('/preSOMEWORDSpast');
+            testMatch(req[0], rt[0], Match.None);
+        });
+
+        it('will not match a route multi with a request part where prefix and suffix are not the same', () => {
+            var rt = route('/pre{param}post');
+            var req = request('/praSOMEWORDSpast');
+            testMatch(req[0], rt[0], Match.None);
+        });
     });
 });
 

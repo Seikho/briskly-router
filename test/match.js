@@ -124,6 +124,38 @@ describe('request/part comparison tests', function () {
             testMatch(req[0], rt[0], 2 /* Any */);
         });
     });
+    describe('multi part tests', function () {
+        it('will match a route multi (prefix and suffix) with request part', function () {
+            var rt = route('/pre{param}post');
+            var req = request('/preSOMEWORDSpost');
+            testMatch(req[0], rt[0], 5 /* Multi */);
+        });
+        it('will match a route multi (prefix only) with request part', function () {
+            var rt = route('/pre{param: number}');
+            var req = request('/pre1234');
+            testMatch(req[0], rt[0], 5 /* Multi */);
+        });
+        it('will match a route multi (suffix only) with request part', function () {
+            var rt = route('/{param: number}post-word');
+            var req = request('/1234post-word');
+            testMatch(req[0], rt[0], 5 /* Multi */);
+        });
+        it('will not match a route multi with a request part where prefix is not the same', function () {
+            var rt = route('/pre{param}post');
+            var req = request('/proSOMEWORDSpost');
+            testMatch(req[0], rt[0], 3 /* None */);
+        });
+        it('will not match a route multi with a request part where suffix is not the same', function () {
+            var rt = route('/pre{param}post');
+            var req = request('/preSOMEWORDSpast');
+            testMatch(req[0], rt[0], 3 /* None */);
+        });
+        it('will not match a route multi with a request part where prefix and suffix are not the same', function () {
+            var rt = route('/pre{param}post');
+            var req = request('/praSOMEWORDSpast');
+            testMatch(req[0], rt[0], 3 /* None */);
+        });
+    });
 });
 function testMatch(reqPart, routePart, expected) {
     var result = match(reqPart, routePart);
