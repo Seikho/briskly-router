@@ -60,6 +60,8 @@ declare module Types {
         cast?: string;
         part: string;
         type: string;
+        prefix?: string
+        suffix?: string;
     }
 
     interface Request {
@@ -79,7 +81,8 @@ declare module Types {
         Type = 1,
         Any = 2,
         None = 3,
-        Wildcard = 4
+        Wildcard = 4,
+        Multi = 5
     }
 
     interface Callback {
