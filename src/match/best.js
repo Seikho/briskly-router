@@ -55,6 +55,7 @@ function getExactPathMatch(path) {
 }
 var matchPriority = [
     0 /* Part */,
+    5 /* Multi */,
     1 /* Type */,
     2 /* Any */,
     4 /* Wildcard */

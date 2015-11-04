@@ -69,6 +69,7 @@ function getExactPathMatch(path: string) {
 
 var matchPriority = [
     Match.Part,
+    Match.Multi,
     Match.Type,
     Match.Any,
     Match.Wildcard
