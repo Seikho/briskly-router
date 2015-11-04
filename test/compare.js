@@ -163,6 +163,13 @@ describe('request/route comparison tests', function () {
             addRoute('/{...}');
             expect(bestReq('/a-word/12345').options.path).to.equal('/a-word/{...}');
         });
+        it('will match a specific route when a wildcard is declared first', function () {
+            clearRoutes();
+            addRoute('/{...}');
+            addRoute('/a-word');
+            expect(bestReq('/a-word').options.path).to.equal('/a-word');
+            expect(bestReq('/no-word').options.path).to.equal('/{...}');
+        });
         it('will match mixed type, multi-part requests with a catchall route', function () {
             expect(bestReq('/a-part/12345').options.path).to.equal('/{...}');
             expect(bestReq('/a-part/[12345,123,123]').options.path).to.equal('/{...}');
@@ -172,6 +179,19 @@ describe('request/route comparison tests', function () {
             expect(bestReq('/12345/[12345,123,123]').options.path).to.equal('/{...}');
             expect(bestReq('/12345/another-word').options.path).to.equal('/{...}');
             expect(bestReq('/12345/{"a": "foo"}').options.path).to.equal('/{...}');
+        });
+    });
+    describe('multi tests', function () {
+        it('will match a request to a multi route', function () {
+            clearRoutes();
+            addRoute('/pre{param}post');
+            expect(bestReq('/preWORDpost').options.path).to.equal('/pre{param}post');
+        });
+        it('will match a request to a part route over an equivalent multi route', function () {
+            clearRoutes();
+            addRoute('/pre{param}post');
+            addRoute('/preWORDpost');
+            expect(bestReq('/preWORDpost').options.path).to.equal('/preWORDpost');
         });
     });
 });

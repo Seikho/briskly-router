@@ -11,12 +11,12 @@ var expect = chai.expect;
 describe('request/route comparison tests', () => {
 
     it('will match the "/" route path', () => {
-       clearRoutes();
-       addRoute('/');
-       var match = bestReq('/');
-       expect(match).to.exist;
-       expect(match.options.path).to.equal('/'); 
-       clearRoutes();
+        clearRoutes();
+        addRoute('/');
+        var match = bestReq('/');
+        expect(match).to.exist;
+        expect(match.options.path).to.equal('/');
+        clearRoutes();
     });
 
     it('will add and remove a route', () => {
@@ -201,6 +201,14 @@ describe('request/route comparison tests', () => {
             expect(bestReq('/a-word/12345').options.path).to.equal('/a-word/{...}');
         });
 
+        it('will match a specific route when a wildcard is declared first', () => {
+            clearRoutes();
+            addRoute('/{...}');
+            addRoute('/a-word');
+            expect(bestReq('/a-word').options.path).to.equal('/a-word');
+            expect(bestReq('/no-word').options.path).to.equal('/{...}');
+        });
+
         it('will match mixed type, multi-part requests with a catchall route', () => {
             expect(bestReq('/a-part/12345').options.path).to.equal('/{...}');
             expect(bestReq('/a-part/[12345,123,123]').options.path).to.equal('/{...}');
@@ -213,6 +221,20 @@ describe('request/route comparison tests', () => {
         });
     });
 
+    describe('multi tests', () => {
+        it('will match a request to a multi route', () => {
+            clearRoutes();
+            addRoute('/pre{param}post');
+            expect(bestReq('/preWORDpost').options.path).to.equal('/pre{param}post');
+        });
+
+        it('will match a request to a part route over an equivalent multi route', () => {
+            clearRoutes();
+            addRoute('/pre{param}post');
+            addRoute('/preWORDpost');
+            expect(bestReq('/preWORDpost').options.path).to.equal('/preWORDpost');
+        });
+    });
 });
 
 function bestReq(path: string, method?: string) {
