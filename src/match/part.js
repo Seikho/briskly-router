@@ -5,6 +5,15 @@ function isMatch(request, route) {
         return request.part === route.part
             ? 0 /* Part */
             : 3 /* None */;
+    if (route.type === 'multi') {
+        var pfx = (route.prefix || '');
+        var sfx = (route.suffix || '');
+        var prefixMatch = route.prefix == null || request.part.slice(0, pfx.length) === pfx;
+        var suffixMatch = route.suffix == null || request.part.slice(-sfx.length) === sfx;
+        return prefixMatch && suffixMatch
+            ? 5 /* Multi */
+            : 3 /* None */;
+    }
     if (route.type === 'wildcard')
         return 4 /* Wildcard */;
     if (route.cast === 'any')
