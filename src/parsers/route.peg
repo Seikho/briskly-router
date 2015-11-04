@@ -18,11 +18,11 @@ Parameter
  = prefix:Word? LB p:ParamName t:Cast? RB suffix:Word? {
   var type = prefix != null || suffix != null ? 'multi' : 'parameter'
   return {
-    type,
+    type: type,
     part: p,
     cast: t || 'any',
-    prefix,
-    suffix
+    prefix: prefix,
+    suffix: suffix
   }
 }
 
