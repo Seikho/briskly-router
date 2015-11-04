@@ -3,7 +3,7 @@ Expression
  / Sep
 
 Word 
- = w:([a-zA-Z0-9\-"'_ !@#$%^&\\[\]*()+=\;<>\\`~]+) { return w.join('') }
+ = w:([a-zA-Z0-9\-"'_ !@#$%^&\\[\]*()+=\;<>\\`~.]+) { return w.join('') }
 
 Part
  = Sep r:(Wildcard / Parameter/ Route) { return r }
@@ -15,7 +15,19 @@ Wildcard
  = w:WC { return { type:'wildcard', part: '*', cast: null } } 
 
 Parameter
- = LB w:Word t:Cast? RB { return { type:'parameter', part: w, cast: t || 'any' } }
+ = prefix:Word? LB p:ParamName t:Cast? RB suffix:Word? {
+  var type = prefix != null || suffix != null ? 'multi' : 'parameter'
+  return {
+    type,
+    part: p,
+    cast: t || 'any',
+    prefix,
+    suffix
+  }
+}
+
+ParamName
+ = start:([a-zA-Z$_]) trail:([a-zA-Z0-9$_]*) { return start + trail.join('') }
 
 Cast
  = _ DD _ t:CastType _ { return t }
