@@ -77,6 +77,10 @@ An example route table:
   
 Allowed parts:
 - **Part**: An exact string. E.g. `/my-home`
+- **Multi-Part** Exact values (prefix and suffix) with parameters. E.g.:
+ - `/prefix{param}suffix`
+ - `/prefix{param: string}suffix`
+ - `/prefix{param: number}suffix`
 - **Parameters**:
  - `{myparam}`: E.g. `/{myparams}`
 - **Typed Parameters**:
@@ -199,10 +203,10 @@ interface Reply {
  - Provide a default catch handler
  - Provide specific catch folders for routes
 - Consider optional parameters
-- Restrict parameter names to valid JavaScript object names
-- Consider prefix and suffix values on route parameter parts. E.g.:
- - `/scripts/{name: string}.js`
- - `/prefix-{param}-suffix`
+- ~~Restrict parameter names to valid JavaScript object names~~ DONE `v0.6.0`
+- ~~Consider prefix and suffix values on route parameter parts. E.g.:~~ DONE `v0.6.0`
+ - ~~`/scripts/{name: string}.js`~~
+ - ~~`/prefix-{param}-suffix`~~
 - Create API for middleware
 
 ### License
