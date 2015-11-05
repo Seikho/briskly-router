@@ -6,7 +6,7 @@ Word
  = w:([a-zA-Z0-9\-"'_ !@#$%^&\\[\]*()+=\;<>\\`~.]+) { return w.join('') }
 
 Part
- = Sep r:(Wildcard / Parameter/ Route) { return r }
+ = Sep r:(Wildcard / Parameter / Route) { return r }
 
 Route
  = w:Word { return { type:'route', part: w, cast: null } }
@@ -28,6 +28,9 @@ Parameter
 
 ParamName
  = start:([a-zA-Z$_]) trail:([a-zA-Z0-9$_]*) { return start + trail.join('') }
+ 
+Optional
+ = LB w:Word QM t:Cast? RB { return { type:'optional', part: w, cast: t } }
 
 Cast
  = _ DD _ t:CastType _ { return t }
@@ -39,6 +42,7 @@ CastType
  / "object"
  / "any"
 
+QM   = "?"
 WC   = "{...}"
 DD   = ":"
 Sep  = "/"
