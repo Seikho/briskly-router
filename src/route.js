@@ -1,6 +1,7 @@
 var errors = require('./errors');
 var routes = require('./routes');
 var routeParser = require('./parsers/route');
+var ambiguousRoutes = require('./match/route');
 function route(options) {
     if (!options)
         throw new Error(errors.NoOptions);
@@ -24,6 +25,9 @@ function route(options) {
         return;
     }
     var parts = routeParser(options.path);
+    var existingRoutes = ambiguousRoutes(parts);
+    if (existingRoutes.length > 0)
+        throw new Error(errors.AmbiguousRoute);
     var matchingParams = parts
         .some(function (part) { return parts.filter(function (p) { return p.cast != null && p.part === part.part; }).length > 1; });
     if (matchingParams)
