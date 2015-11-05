@@ -1,4 +1,3 @@
-import routes = require('../routes');
 import Match = Types.Match;
 export = match;
 
