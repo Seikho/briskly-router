@@ -198,7 +198,7 @@ interface Reply {
 ```
 
 ### TODOS
-- Disallow ambiguous routes
+- ~~Disallow ambiguous routes~~ DONE `v0.7.0`
 - Allow `catch`/`error` handlers
  - Provide a default catch handler
  - Provide specific catch folders for routes
