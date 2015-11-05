@@ -49,7 +49,7 @@ server.on('request', (message: http.IncomingMessage, response: http.ServerRespon
     }
 
     if (isFunc(handler)) {
-        handler({ query, path, wildcard, body: {}, params }, reply);
+        handler({ query, path, wildcard, body: {}, params, message }, reply);
     }
 });
 
@@ -86,7 +86,7 @@ function postHandler(message: http.IncomingMessage, response: http.ServerRespons
     var formParser = new forms.IncomingForm();
     var callback = (err, fields) => {
         var handler = <Types.RouteHandler>routeHandler.handler;
-        handler({ body: fields, path: parsed.path, wildcard, query: {}, params }, toReply(response));
+        handler({ body: fields, path: parsed.path, wildcard, query: {}, params, message }, toReply(response));
     }
 
     formParser.parse(message, callback);

@@ -38,7 +38,7 @@ server.on('request', function (message, response) {
         return postHandler(message, response, route.options, wildcard, params);
     }
     if (isFunc(handler)) {
-        handler({ query: query, path: path, wildcard: wildcard, body: {}, params: params }, reply);
+        handler({ query: query, path: path, wildcard: wildcard, body: {}, params: params, message: message }, reply);
     }
 });
 function getParameters(path, routeParts) {
@@ -73,7 +73,7 @@ function postHandler(message, response, routeHandler, wildcard, params) {
     var formParser = new forms.IncomingForm();
     var callback = function (err, fields) {
         var handler = routeHandler.handler;
-        handler({ body: fields, path: parsed.path, wildcard: wildcard, query: {}, params: params }, toReply(response));
+        handler({ body: fields, path: parsed.path, wildcard: wildcard, query: {}, params: params, message: message }, toReply(response));
     };
     formParser.parse(message, callback);
 }
