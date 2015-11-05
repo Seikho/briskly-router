@@ -1,5 +1,6 @@
 import routes = require('../routes');
 import match = require('./route-part');
+export = compare;
 
 function compare(route: Types.RoutePart[]) {    
     var matches = routes

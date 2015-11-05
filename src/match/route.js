@@ -7,4 +7,5 @@ function compare(route) {
     // This should only return one or no result
     return matches;
 }
+module.exports = compare;
 //# sourceMappingURL=route.js.map
