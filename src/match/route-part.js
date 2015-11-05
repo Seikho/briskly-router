@@ -16,7 +16,7 @@ function match(left, right) {
     if (left.cast !== right.cast)
         return 3 /* None */;
     var pfx = left.prefix === right.prefix;
-    var sfx = right.suffix === right.suffix;
+    var sfx = left.suffix === right.suffix;
     return pfx && sfx
         ? 5 /* Multi */
         : 3 /* None */;
