@@ -9,4 +9,4 @@ function toRequest(path, method) {
     };
 }
 module.exports = toRequest;
-//# sourceMappingURL=request.js.map
+//# sourceMappingURL=to-request.js.map

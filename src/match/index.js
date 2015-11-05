@@ -1,4 +1,4 @@
-var toRequest = require('./request');
+var toRequest = require('./to-request');
 var best = require('./best');
 function match(path, method) {
     method = method.toUpperCase();

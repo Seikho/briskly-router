@@ -1,4 +1,4 @@
-var request = require('../src/match/request');
+var request = require('../src/match/to-request');
 var best = require('../src/match/best');
 var add = require('../src/route');
 var routes = require('../src/routes');

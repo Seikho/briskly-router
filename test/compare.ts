@@ -1,6 +1,6 @@
 import compare = require('../src/match/compare');
 import route = require('../src/parsers/route');
-import request = require('../src/match/request');
+import request = require('../src/match/to-request');
 import best = require('../src/match/best');
 import add = require('../src/route');
 import routes = require('../src/routes');

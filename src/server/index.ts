@@ -7,7 +7,7 @@ import qs = require('querystring');
 import fs = require('fs');
 import pth = require('path');
 import logger = require('ls-logger');
-import toRequest = require('../match/request')
+import toRequest = require('../match/to-request')
 
 export = server;
 

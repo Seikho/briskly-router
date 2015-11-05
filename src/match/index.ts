@@ -1,7 +1,7 @@
 import Match = Types.Match;
 import routes = require('../routes');
 import log = require('ls-logger');
-import toRequest = require('./request');
+import toRequest = require('./to-request');
 import best = require('./best');
 export = match;
 

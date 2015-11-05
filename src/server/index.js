@@ -6,7 +6,7 @@ var qs = require('querystring');
 var fs = require('fs');
 var pth = require('path');
 var logger = require('ls-logger');
-var toRequest = require('../match/request');
+var toRequest = require('../match/to-request');
 var server = http.createServer();
 server.on('request', function (message, response) {
     var error = false;
