@@ -48,6 +48,6 @@ router.route({
 
 router.route({
     method: 'GET',
-    path: '/users/create/{name: string}/{email: string}',
-    handler: (req, reply) => reply(`Name: ${req.params.name}, Email: ${req.params.email}`)
+    path: '/debug',
+    handler: (req, reply) => reply(req.message.headers)
 });

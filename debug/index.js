@@ -39,7 +39,7 @@ router.route({
 });
 router.route({
     method: 'GET',
-    path: '/users/create/{name: string}/{email: string}',
-    handler: function (req, reply) { return reply("Name: " + req.params.name + ", Email: " + req.params.email); }
+    path: '/debug',
+    handler: function (req, reply) { return reply(req.message.headers); }
 });
 //# sourceMappingURL=index.js.map
