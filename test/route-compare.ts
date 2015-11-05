@@ -84,6 +84,10 @@ describe('ambiguous route tests', () => {
     it('will match on Multi array', curryAdd('/pre{param:array}post'));
     
     it('will match on Multi object', curryAdd('/pre{param:object}post'));
+    
+    it('will throw when adding an ambiguous route', () => {
+       expect(add.bind(add, '/abcdef')).to.throw();
+    });
 });
 
 function curryAdd(path: string) {
