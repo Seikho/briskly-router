@@ -56,19 +56,19 @@ server.on('request', (message: http.IncomingMessage, response: http.ServerRespon
 function getParameters(path: string, routeParts: Types.RoutePart[]) {
     var request = toRequest(path);
     var parameters: any = {};
-    var parts = routeParts.forEach((part, i) => {        
+    var parts = routeParts.forEach((part, i) => {
         if (part.cast == null) return;
         var value = request.parts[i].value;
-        
+
         if (part.type === 'multi') {
             var pfx = (part.prefix || '').length;
             var sfx = (part.suffix || '').length;
-            
+
             if (pfx === 0) value = part.part.slice(0, -sfx);
             else if (sfx === 0) value = part.part.slice(pfx);
             else value = part.part.slice(pfx, -sfx);
         }
-        
+
         parameters[part.part] = value;
     });
     return parameters;
@@ -100,8 +100,13 @@ function toReply(response: http.ServerResponse) {
         reply.called = true;
         statusCode = statusCode || 200;
         response.writeHead(statusCode, { 'Content-Type': 'application/json' });
-        response.end(JSON.stringify(data));
-        return;
+        try {
+            response.end(JSON.stringify(data));
+        }
+        catch (ex) {
+            response.statusCode = 500;
+            response.end(`Unhandled exception: ${ex.message}`);
+        }
     }
 
     reply.called = false;

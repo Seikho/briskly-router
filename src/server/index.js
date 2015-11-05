@@ -84,8 +84,13 @@ function toReply(response) {
         reply.called = true;
         statusCode = statusCode || 200;
         response.writeHead(statusCode, { 'Content-Type': 'application/json' });
-        response.end(JSON.stringify(data));
-        return;
+        try {
+            response.end(JSON.stringify(data));
+        }
+        catch (ex) {
+            response.statusCode = 500;
+            response.end("Unhandled exception: " + ex.message);
+        }
     };
     reply.called = false;
     reply.file = function (filePath) {
