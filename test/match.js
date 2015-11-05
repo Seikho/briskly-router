@@ -1,6 +1,6 @@
 var request = require('../src/parsers/request');
 var route = require('../src/parsers/route');
-var match = require('../src/match/part');
+var match = require('../src/match/request-part');
 var chai = require('chai');
 var expect = chai.expect;
 describe('request/part comparison tests', function () {

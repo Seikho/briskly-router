@@ -1,7 +1,7 @@
 import Match = Types.Match;
 import request = require('../src/parsers/request');
 import route = require('../src/parsers/route');
-import match = require('../src/match/part');
+import match = require('../src/match/request-part');
 import chai = require('chai');
 var expect = chai.expect;
 

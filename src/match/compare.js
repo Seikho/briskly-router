@@ -1,4 +1,4 @@
-var matchPart = require('./part');
+var matchPart = require('./request-part');
 function compare(request, route) {
     var sameLength = request.parts.length === route.parts.length;
     var hasWildcard = route.parts.some(function (r) { return r.type === 'wildcard'; });

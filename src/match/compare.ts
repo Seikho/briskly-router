@@ -1,5 +1,5 @@
 import Match = Types.Match;
-import matchPart = require('./part');
+import matchPart = require('./request-part');
 export = compare;
 
 function compare(request: Types.Request, route: Types.Route): Array<Match> {
