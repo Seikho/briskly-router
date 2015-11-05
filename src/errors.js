@@ -7,7 +7,7 @@ var errors = {
     InvalidWildCard: 'Invalid wildcard use: Wildcard can only be at the end of a path',
     MatchingParamNames: 'Invalid route path: Parameter names must be unique',
     ReplyOnlyOnce: 'Reply can only be called once',
-    AmbigiousRoute: 'Invalid route: Ambigious route. A similar route already exists'
+    AmbiguousRoute: 'Invalid route: Ambiguous route. A similar route already exists'
 };
 module.exports = errors;
 //# sourceMappingURL=errors.js.map
