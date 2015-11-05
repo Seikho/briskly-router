@@ -33,4 +33,5 @@ function isEqual(part) {
 function isArray(obj) {
     return Array.isArray(obj);
 }
+module.exports = match;
 //# sourceMappingURL=route-part.js.map

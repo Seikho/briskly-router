@@ -1,5 +1,6 @@
 import routes = require('../routes');
 import Match = Types.Match;
+export = match;
 
 function match(left: Types.RoutePart, right: Types.RoutePart): Match {
     var isLeft = isEqual(left);
