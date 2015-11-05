@@ -14,7 +14,7 @@ function match(left, right) {
             : 3 /* None */;
     // We are strictly comparing Multi parts at this point
     if (left.cast !== right.cast)
-        return false;
+        return 3 /* None */;
     var pfx = left.prefix === right.prefix;
     var sfx = right.suffix === right.suffix;
     return pfx && sfx

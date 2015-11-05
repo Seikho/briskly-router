@@ -22,7 +22,7 @@ function match(left: Types.RoutePart, right: Types.RoutePart): Match {
     
     // We are strictly comparing Multi parts at this point
     if (left.cast !== right.cast)
-        return false;
+        return Match.None;
 
     var pfx: boolean = left.prefix === right.prefix;
     var sfx: boolean = right.suffix === right.suffix;
