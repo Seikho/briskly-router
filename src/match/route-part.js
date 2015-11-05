@@ -3,17 +3,23 @@ function match(left, right) {
     var isRight = isEqual(right);
     var isBoth = function (props, value) { return isLeft(props, value || null) && isRight(props, value || null); };
     if (isBoth('type', 'wildcard'))
-        return true;
+        return 4 /* Wildcard */;
     if (isBoth('cast', null))
-        return left.part === right.part;
+        return left.part === right.part
+            ? 0 /* Part */
+            : 3 /* None */;
     if (isBoth(['prefix', 'suffix'], null))
-        return left.cast === right.cast;
+        return left.cast === right.cast
+            ? 1 /* Type */
+            : 3 /* None */;
     // We are strictly comparing Multi parts at this point
     if (left.cast !== right.cast)
         return false;
     var pfx = left.prefix === right.prefix;
     var sfx = right.suffix === right.suffix;
-    return pfx && sfx;
+    return pfx && sfx
+        ? 5 /* Multi */
+        : 3 /* None */;
 }
 function isEqual(part) {
     return function (props, value) {

@@ -1,19 +1,23 @@
 import routes = require('../routes');
 import Match = Types.Match;
 
-function match(left: Types.RoutePart, right: Types.RoutePart): boolean {
+function match(left: Types.RoutePart, right: Types.RoutePart): Match {
     var isLeft = isEqual(left);
     var isRight = isEqual(right);
     var isBoth = (props: string | string[], value?: any) => isLeft(props, value || null) && isRight(props, value || null);
 
     if (isBoth('type', 'wildcard'))
-        return true;
+        return Match.Wildcard;
 
     if (isBoth('cast', null))
-        return left.part === right.part;
+        return left.part === right.part
+            ? Match.Part
+            : Match.None;
 
     if (isBoth(['prefix', 'suffix'], null))
-        return left.cast === right.cast;
+        return left.cast === right.cast
+            ? Match.Type
+            : Match.None;
     
     // We are strictly comparing Multi parts at this point
     if (left.cast !== right.cast)
@@ -21,8 +25,10 @@ function match(left: Types.RoutePart, right: Types.RoutePart): boolean {
 
     var pfx: boolean = left.prefix === right.prefix;
     var sfx: boolean = right.suffix === right.suffix;
-    
-    return pfx && sfx;
+
+    return pfx && sfx
+        ? Match.Multi
+        : Match.None;
 }
 
 function isEqual(part: Types.RoutePart) {
