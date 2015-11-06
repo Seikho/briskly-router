@@ -1,2 +1,2 @@
-import Types = require('Types');
+/// <reference path="src/typings/types.d.ts" />
 export = Types;
