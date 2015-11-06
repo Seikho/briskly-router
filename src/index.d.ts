@@ -1,10 +1,13 @@
-export function start(callback?: Callback);
-
-export function stop(callback?: Callback);
-
-export function route(options: RouteOptions): void;
-
-export function connection(options: ServerOptions): void;
+export class Router {
+    constructor(options?: ServerOptions);
+    
+    port: number;
+    host: string;
+    start(callback?: (err?) => void): Promise<void>;
+    stop(callback?: () => void): Promise<void>;
+    route(options: RouteOptions): void;
+    connection(options: ServerOptions): void;
+}
 
 export var version: string;
 
@@ -83,10 +86,6 @@ export const enum Match {
     None = 3,
     Wildcard = 4,
     Multi = 5
-}
-
-export interface Callback {
-    (error?: any, data?: any): void;
 }
 
 export interface IncomingMessage {

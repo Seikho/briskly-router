@@ -5,5 +5,7 @@ export = create;
 function create() {
     var server = http.createServer();
     server.on('request', handler);
+    
+    return server;
 }
 
