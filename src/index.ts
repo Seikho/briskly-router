@@ -10,10 +10,10 @@ export class Router {
         this.connection(options);
     }
 
-    server = createServer();
+    routes: Types.Route[] = [];
+    server = createServer(this.routes);
     port: number = 2189;    
     host: string = null;
-    routes: Types.Route[] = [];
 
     start(callback?: (err?) => void) {
         var p = new Promise<void>((resolve, reject) => {
