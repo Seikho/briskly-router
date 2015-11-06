@@ -1,3 +1,4 @@
+import Types = require('./index.d.ts');
 import errors = require('./errors');
 import routes = require('./routes');
 import routeParser = require('./parsers/route');

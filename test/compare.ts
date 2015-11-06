@@ -1,3 +1,4 @@
+import Types = require('../src/index.d.ts');
 import compare = require('../src/match/compare');
 import route = require('../src/parsers/route');
 import request = require('../src/match/to-request');

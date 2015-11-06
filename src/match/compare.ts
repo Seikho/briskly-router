@@ -1,3 +1,4 @@
+import Types = require('../index.d.ts');
 import Match = Types.Match;
 import matchPart = require('./request-part');
 export = compare;

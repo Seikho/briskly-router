@@ -1,3 +1,5 @@
+import Types = require('./index.d.ts');
+
 export var port: number = null;
 
 export var host = 'localhost';

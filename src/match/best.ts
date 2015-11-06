@@ -1,5 +1,6 @@
 import compare = require('./compare');
 import routes = require('../routes');
+import Types = require('../index.d.ts');
 import Match = Types.Match;
 export = bestMatch;
 

@@ -1,3 +1,4 @@
+var Types = require('../index.d.ts');
 var routes = require('../routes');
 var match = require('./route-part');
 function compare(route) {

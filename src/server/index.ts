@@ -1,3 +1,4 @@
+import Types = require('../index.d.ts');
 import http = require('http');
 import routes = require('../routes');
 import match = require('../match');

@@ -1,3 +1,4 @@
+import Types = require('../index.d.ts');
 import routes = require('../routes');
 import match = require('./route-part');
 export = compare;

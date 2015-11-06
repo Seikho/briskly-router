@@ -1,3 +1,4 @@
+import Types = require('../index.d.ts');
 export = parse;
 
 function parse(request: string) {

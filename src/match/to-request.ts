@@ -1,3 +1,4 @@
+import Types = require('../index.d.ts');
 import requestParser = require('../parsers/request');
 export = toRequest;
 
