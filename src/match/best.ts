@@ -1,11 +1,10 @@
 import compare = require('./compare');
-import routes = require('../routes');
 import Types = require('../index.d.ts');
-import Match = Types.Match;
+import Match = BR.Match;
 export = bestMatch;
 
-function bestMatch(request: Types.Request): Types.Route {
-    var exactPathMatch = getExactPathMatch(request.path);
+function bestMatch(request: Types.Request, routes: Types.Route[]): Types.Route {
+    var exactPathMatch = getExactPathMatch(request.path, routes);
     if (exactPathMatch) return exactPathMatch;
     
     var comparisons = routes
@@ -63,7 +62,7 @@ function toComparison(matches: Array<Match>, index: number) {
     };
 }
 
-function getExactPathMatch(path: string) {
+function getExactPathMatch(path: string, routes: Types.Route[]) {
     var exact = routes.filter(r => r.options.path === path)[0];
     return exact;
 }

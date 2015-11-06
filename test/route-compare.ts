@@ -1,19 +1,14 @@
+import Types = require('../src/index.d.ts');
 import match = require('../src/match/route');
 import chai = require('chai');
 import parse = require('../src/parsers/route');
 import route = require('../src/route');
-import routes = require('../src/routes');
 var expect = chai.expect;
+
+var routes: Types.Route[] = []; 
 
 
 describe('ambiguous route tests', () => {
-    
-    // Empty routes before starting
-    it('will start with no routes in route table', () => {
-        while (routes.pop()) { }
-        expect(routes.length).to.equal(0);
-    });
-
     it('will not match on Part (no routes)', curryFind('/no-route', false));
 
     it('will match on Part', curryAdd('/abcdef'));
@@ -103,7 +98,7 @@ function curryFind(path: string, expected: boolean) {
 
 function find(path: string, expected: boolean) {
     let route = parse(path);
-    var matches = match(route);
+    var matches = match(route, routes);
 
     if (expected) expect(matches).to.not.be.empty
     else {
@@ -119,5 +114,5 @@ function add(path: string) {
         method: 'GET',
         path,
         handler: () => { }
-    });
+    }, routes);
 }

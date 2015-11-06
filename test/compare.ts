@@ -2,12 +2,17 @@ import Types = require('../src/index.d.ts');
 import compare = require('../src/match/compare');
 import route = require('../src/parsers/route');
 import request = require('../src/match/to-request');
-import best = require('../src/match/best');
+import match = require('../src/match/best');
 import add = require('../src/route');
-import routes = require('../src/routes');
+// import routes = require('../src/routes');
 import * as chai from 'chai'
-import Match = Types.Match;
+import Match = BR.Match;
 var expect = chai.expect;
+
+var routes: Types.Route[] = [];
+
+
+var best = (req: Types.Request) => match(req, routes);
 
 describe('request/route comparison tests', () => {
 
@@ -239,7 +244,7 @@ describe('request/route comparison tests', () => {
 });
 
 function bestReq(path: string, method?: string) {
-    return best(request(path, method));
+    return match(request(path, method), routes);
 }
 
 function addRoute(path: string, method?: string) {
@@ -248,7 +253,7 @@ function addRoute(path: string, method?: string) {
         method,
         path,
         handler: () => { }
-    });
+    }, routes);
 }
 
 function test(matches: Array<Match>, expected: Array<Match>) {

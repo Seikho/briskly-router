@@ -1,5 +1,5 @@
 import Types = require('../src/index.d.ts');
-import Match = Types.Match;
+import Match = BR.Match;
 import request = require('../src/parsers/request');
 import route = require('../src/parsers/route');
 import match = require('../src/match/request-part');

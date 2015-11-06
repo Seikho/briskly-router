@@ -13,6 +13,7 @@ export class Router {
     server = createServer();
     port: number = 2189;    
     host: string = null;
+    routes: Types.Route[] = [];
 
     start(callback?: (err?) => void) {
         var p = new Promise<void>((resolve, reject) => {
@@ -46,10 +47,10 @@ export class Router {
         if (options.port) this.port = options.port;
     }
     
-    routes: Types.Route[] = [];
-
-    route = route(this);
+    route(options: Types.RouteOptions) {
+        route(options, this.routes);
+    }
 }
 
-var version = pkg.version;
+export var version = pkg.version;
 

@@ -8,7 +8,6 @@ var Router = (function () {
         this.port = 2189;
         this.host = null;
         this.routes = [];
-        this.route = route(this);
         this.connection(options);
     }
     Router.prototype.start = function (callback) {
@@ -47,8 +46,11 @@ var Router = (function () {
         if (options.port)
             this.port = options.port;
     };
+    Router.prototype.route = function (options) {
+        route(options, this.routes);
+    };
     return Router;
 })();
 exports.Router = Router;
-var version = pkg.version;
+exports.version = pkg.version;
 //# sourceMappingURL=index.js.map

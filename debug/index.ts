@@ -1,4 +1,4 @@
-import router = require('../src');
+import BR = require('../src');
 import log = require('ls-logger');
 
 var users = [
@@ -9,6 +9,8 @@ var users = [
 
 var getId = (id: number) => users.filter(u => u.id === id)[0];
 var getName = (name: string) => users.filter(u => u.name === name)[0];
+
+var router = new BR.Router();
 
 router.start(() => log.info('Server started'));
 

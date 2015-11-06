@@ -1,9 +1,11 @@
 var request = require('../src/match/to-request');
-var best = require('../src/match/best');
+var match = require('../src/match/best');
 var add = require('../src/route');
-var routes = require('../src/routes');
+// import routes = require('../src/routes');
 var chai = require('chai');
 var expect = chai.expect;
+var routes = [];
+var best = function (req) { return match(req, routes); };
 describe('request/route comparison tests', function () {
     it('will match the "/" route path', function () {
         clearRoutes();
@@ -196,7 +198,7 @@ describe('request/route comparison tests', function () {
     });
 });
 function bestReq(path, method) {
-    return best(request(path, method));
+    return match(request(path, method), routes);
 }
 function addRoute(path, method) {
     method = method || 'get';
@@ -204,7 +206,7 @@ function addRoute(path, method) {
         method: method,
         path: path,
         handler: function () { }
-    });
+    }, routes);
 }
 function test(matches, expected) {
     expect(matches.length).to.equal(expected.length);

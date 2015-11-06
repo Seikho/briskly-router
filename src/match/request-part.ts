@@ -1,5 +1,5 @@
 import Types = require('../index.d.ts');
-import Match = Types.Match;
+import Match = BR.Match;
 export = isMatch;
 
 function isMatch(request: Types.RequestPart, route: Types.RoutePart) {

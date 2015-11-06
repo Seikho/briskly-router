@@ -2,14 +2,9 @@ var match = require('../src/match/route');
 var chai = require('chai');
 var parse = require('../src/parsers/route');
 var route = require('../src/route');
-var routes = require('../src/routes');
 var expect = chai.expect;
+var routes = [];
 describe('ambiguous route tests', function () {
-    // Empty routes before starting
-    it('will start with no routes in route table', function () {
-        while (routes.pop()) { }
-        expect(routes.length).to.equal(0);
-    });
     it('will not match on Part (no routes)', curryFind('/no-route', false));
     it('will match on Part', curryAdd('/abcdef'));
     it('will not match on Part (dissimilar)', curryFind('/foobar', false));
@@ -68,7 +63,7 @@ function curryFind(path, expected) {
 }
 function find(path, expected) {
     var route = parse(path);
-    var matches = match(route);
+    var matches = match(route, routes);
     if (expected)
         expect(matches).to.not.be.empty;
     else {
@@ -82,6 +77,6 @@ function add(path) {
         method: 'GET',
         path: path,
         handler: function () { }
-    });
+    }, routes);
 }
 //# sourceMappingURL=route-compare.js.map

@@ -1,4 +1,4 @@
-var router = require('../src');
+var BR = require('../src');
 var log = require('ls-logger');
 var users = [
     { id: 1, name: 'seikho' },
@@ -7,6 +7,7 @@ var users = [
 ];
 var getId = function (id) { return users.filter(function (u) { return u.id === id; })[0]; };
 var getName = function (name) { return users.filter(function (u) { return u.name === name; })[0]; };
+var router = new BR.Router();
 router.start(function () { return log.info('Server started'); });
 router.route({
     method: 'GET',

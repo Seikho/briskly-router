@@ -6,13 +6,13 @@ var match = require('../match');
 var pth = require('path');
 var qs = require('querystring');
 var fs = require('fs');
-function handleRequest(message, response) {
+function handleRequest(message, response, routes) {
     var error = false;
     var method = message.method;
     var parsedUrl = parseUrl(message.url);
     var path = parsedUrl.path;
     var query = parsedUrl.query;
-    var route = match(path, method);
+    var route = match(path, method, routes);
     if (!route) {
         response.statusCode = 404;
         response.end('Not found');

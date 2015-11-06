@@ -10,14 +10,14 @@ import qs = require('querystring');
 import fs = require('fs');
 export = handleRequest;
 
-function handleRequest(message: http.IncomingMessage, response: http.ServerResponse) {
+function handleRequest(message: http.IncomingMessage, response: http.ServerResponse, routes: Types.Route[]) {
     var error = false;
     var method = message.method;
     var parsedUrl = parseUrl(message.url);
     var path = parsedUrl.path;
     var query = parsedUrl.query;
 
-    var route = match(path, method);
+    var route = match(path, method, routes);
 
     if (!route) {
         response.statusCode = 404;
