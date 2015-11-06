@@ -50,20 +50,8 @@ BR.stop();
 ```
 
 ### Configuration
-The configuration `port` and `host` can be configured in code or in [briskly.json](#brisklyjson).  
-**NB**: The configuration in code will override `briskly.json`.  
 See [connection(...)](#connection) 
   
-### Briskly JSON
-The `port` and `host` can be defined in `briskly.json`.
-```json
-{
-    "host": "localhost",
-    "port": 2189
-}
-``` 
-Exmaple: See the this sample [briskly.json](https://github.com/Seikho/briskly/blob/master/briskly.json).
-
 ### Routing
 A route is defined by its `parts` which are separated by a forward slash (`/`).  
 Routes **do not** need to be defined in order and will always use the **most specific route** 
