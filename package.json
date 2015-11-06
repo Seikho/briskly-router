@@ -2,6 +2,7 @@
   "name": "briskly-router",
   "version": "0.8.2",
   "description": "briskly route handler",
+  "typings": "src/index.d.ts",
   "main": "src/index",
   "scripts": {
     "test": "mocha",
