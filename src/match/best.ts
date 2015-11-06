@@ -6,19 +6,21 @@ export = bestMatch;
 function bestMatch(request: Types.Request, routes: Types.Route[]): Types.Route {
     var exactPathMatch = getExactPathMatch(request.path, routes);
     if (exactPathMatch) return exactPathMatch;
-    
-    var comparisons = routes
-        .filter(r => r.options.method === request.method)
+
+    var possibleRoutes = routes
+        .filter(r => r.options.method === request.method);
+        
+    var comparisons = possibleRoutes
         .map(route => compare(request, route))
         .map(toComparison)
         .filter(comparison => comparison.matches != null);
-
+        
     var matches = comparisons.slice();
 
     for (var i = 0; i < request.parts.length; i++) {
         var forMatches = (comparator: Match) => (comparison: Comparison) => {
             var exactMatch = comparison.matches[i] === comparator;
-            
+
             return exactMatch;
         }
         var exactMatches = [];
@@ -33,7 +35,7 @@ function bestMatch(request: Types.Request, routes: Types.Route[]): Types.Route {
         if (exactMatches.length === 0) return null;
         matches = exactMatches.slice();
     }
-    
+
     if (matches.length > 1) {
         // Ambiguous match -- can occur when using wildcards
         
@@ -48,11 +50,11 @@ function bestMatch(request: Types.Request, routes: Types.Route[]): Types.Route {
         var maxLength = matches.reduce((prev, curr) => prev = curr.matches.length > prev ? curr.matches.length : prev, 0);
         var longest = matches.filter(match => match.matches.length === maxLength);
         if (longest.length > 1) throw new Error(`Ambiguous route detected (${request.path})`);
-        
-        return routes[longest[0].index];
+
+        return possibleRoutes[longest[0].index];
     }
 
-    return routes[matches[0].index];
+    return possibleRoutes[matches[0].index];
 }
 
 function toComparison(matches: Array<Match>, index: number) {

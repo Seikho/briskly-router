@@ -3,8 +3,9 @@ function bestMatch(request, routes) {
     var exactPathMatch = getExactPathMatch(request.path, routes);
     if (exactPathMatch)
         return exactPathMatch;
-    var comparisons = routes
-        .filter(function (r) { return r.options.method === request.method; })
+    var possibleRoutes = routes
+        .filter(function (r) { return r.options.method === request.method; });
+    var comparisons = possibleRoutes
         .map(function (route) { return compare(request, route); })
         .map(toComparison)
         .filter(function (comparison) { return comparison.matches != null; });
@@ -38,9 +39,9 @@ function bestMatch(request, routes) {
         var longest = matches.filter(function (match) { return match.matches.length === maxLength; });
         if (longest.length > 1)
             throw new Error("Ambiguous route detected (" + request.path + ")");
-        return routes[longest[0].index];
+        return possibleRoutes[longest[0].index];
     }
-    return routes[matches[0].index];
+    return possibleRoutes[matches[0].index];
 }
 function toComparison(matches, index) {
     return {
