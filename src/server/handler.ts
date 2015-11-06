@@ -98,6 +98,8 @@ function toReply(response: http.ServerResponse) {
         statusCode = statusCode || 200;
         response.writeHead(statusCode, { 'Content-Type': 'application/json' });
         try {
+            if (typeof data === 'string' || typeof data === 'number')
+                return response.end(data.toString())
             response.end(JSON.stringify(data));
         }
         catch (ex) {
