@@ -23,12 +23,12 @@ npm install briskly-router --save
 ```javascript
 import BR = require('briskyl-router');
 
-BR.connection({
+var router = new BR.Router({
     port: 2189,
     host: 'localhost'
 });
 
-BR.route({
+router.route({
     method: 'GET',
     path: '/',
     handler: {
@@ -36,17 +36,17 @@ BR.route({
     }
 });
 
-BR.route({
+router.route({
     method: 'GET',
     path: '/users/{id: number}',
     handler: (request, reply) => getUserById(request.params.id).then(reply)
 });
 
-BR.start();
+router.start();
 
 // some time later
 
-BR.stop();
+router.stop();
 ```
 
 ### Configuration
