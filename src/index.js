@@ -1,6 +1,7 @@
 var route = require('./route');
 var createServer = require('./server');
 var Promise = require('bluebird');
+var handler = require('./server/handler');
 var pkg = require('../package.json');
 var Router = (function () {
     function Router(options) {
@@ -10,6 +11,9 @@ var Router = (function () {
         this.host = null;
         this.connection(options);
     }
+    Router.prototype.handle = function (message, response) {
+        handler(message, response, this.routes);
+    };
     Router.prototype.start = function (callback) {
         var _this = this;
         var p = new Promise(function (resolve, reject) {

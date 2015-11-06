@@ -1,8 +1,11 @@
+import http = require('http');
+
 export class Router {
     constructor(options?: ServerOptions);
     
     port: number;
     host: string;
+    handle(message: http.IncomingMessage, response: http.ServerResponse): void;
     start(callback?: (err?) => void): Promise<void>;
     stop(callback?: () => void): Promise<void>;
     route(options: RouteOptions): void;

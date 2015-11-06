@@ -3,6 +3,8 @@ import connection = require('./connection');
 import route = require('./route');
 import createServer = require('./server');
 import Promise = require('bluebird');
+import http = require('http');
+import handler = require('./server/handler');
 var pkg = require('../package.json');
 
 export class Router {
@@ -14,6 +16,10 @@ export class Router {
     server = createServer(this.routes);
     port: number = 2189;    
     host: string = null;
+    
+    handle(message: http.IncomingMessage, response: http.ServerResponse) {
+        handler(message, response, this.routes);
+    }
 
     start(callback?: (err?) => void) {
         var p = new Promise<void>((resolve, reject) => {
