@@ -79,15 +79,6 @@ export interface RequestPart {
     cast: string;
 }
 
-export const enum Match {
-    Part = 0,
-    Type = 1,
-    Any = 2,
-    None = 3,
-    Wildcard = 4,
-    Multi = 5
-}
-
 export interface IncomingMessage {
     httpVersion: string;
     headers: any;
