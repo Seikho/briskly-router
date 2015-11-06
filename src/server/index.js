@@ -103,7 +103,6 @@ function toReply(response) {
                 response.end();
                 return;
             }
-            console.log('here');
             response.end(data);
         });
     };

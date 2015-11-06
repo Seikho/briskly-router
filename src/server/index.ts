@@ -121,7 +121,6 @@ function toReply(response: http.ServerResponse) {
                 response.end();
                 return;
             }
-            console.log('here');
             response.end(data);
         });
     }
