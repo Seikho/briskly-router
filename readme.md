@@ -18,8 +18,8 @@ npm install briskly-router --save
 ```
 
 ### Basic Usage
-[Basic demo](https://tonicdev.com/seikho/56378b0799bd990c00ff3428)  
-`briskly-router` will check [briskly.json](#briskly-json) for routes and server configuration.
+[Basic demo](https://tonicdev.com/seikho/563eab2d569e3f0c0089b53d)  
+
 ```javascript
 import BR = require('briskyl-router');
 
