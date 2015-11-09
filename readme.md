@@ -21,7 +21,7 @@ npm install briskly-router --save
 [Basic demo](https://tonicdev.com/seikho/563eab2d569e3f0c0089b53d)  
 
 ```javascript
-import BR = require('briskyl-router');
+import BR = require('briskly-router');
 
 var router = new BR.Router({
     port: 2189,
