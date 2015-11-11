@@ -103,6 +103,18 @@ route({ method: 'get', path: '/api/user/{name: string}', handler: (req, reply) =
 route({ method: 'get', path: '/', handler: { file: 'front/index.html' } });
 ```
 
+#### Router
+See: [ServerOptions](#serveroptions)
+```javascript
+class Router {
+    constructor(options: ServerOptions);
+    start(callback: (error?: any) => void): Promise<void>;
+    stop(callback: () => void): Promise<void>;
+    connection(options: ServerOptions): void;
+    route(options: RouteOptions): void;
+}
+```
+
 #### connection
 See: [ServerOptions](#serveroptions)  
 Set the listening port and/or host
@@ -111,17 +123,17 @@ function connection(options: ServerOptions): void;
 ``` 
 
 #### start
-See: [briskly.json](#briskly-json)  
+ 
 Starts the web server listener.  
 This will parse `briskly.json` and use the `port` key
 ```javascript
-function start(callback: () => void): void;
+function start(callback: () => void): Promise<void>;
 ```
 
 #### stop
 Stops the web server listener.  
 ```javascript
-function stop(callback: () => void): void;
+function stop(callback: () => void): Promise<void>;
 ```
 
 #### ServerOptions
