@@ -208,6 +208,7 @@ interface Reply {
  - ~~`/scripts/{name: string}.js`~~
  - ~~`/prefix-{param}-suffix`~~
 - Create API for middleware
+- Add parameter name for wildcard. E.g. `/{...myparam}`
 
 ### License
 MIT
