@@ -95,11 +95,13 @@ function toReply(response: http.ServerResponse) {
             return logger.error(errors.ReplyOnlyOnce);
 
         reply.called = true;
-        statusCode = statusCode || 200;
-        response.writeHead(statusCode, { 'Content-Type': 'application/json' });
+        reply.headers['Content-Type'] = 'application/json';
+        reply.writeHeaders();
+
         try {
             if (typeof data === 'string' || typeof data === 'number')
                 return response.end(data.toString())
+
             response.end(JSON.stringify(data));
         }
         catch (ex) {
@@ -108,20 +110,35 @@ function toReply(response: http.ServerResponse) {
         }
     }
 
+    reply.headers = {};
+
+    reply.statusCode = 200;
+
+    reply.writeHeaders = () => {
+        response.writeHead(reply.statusCode || 200, reply.headers);
+    }
+
     reply.called = false;
 
     reply.file = (filePath: string) => {
         reply.called = true;
         fs.readFile(filePath, 'utf8', (err, data) => {
             if (err) {
-                console.log('404');
-                response.statusCode = 404;
-                response.write(`Unable to load file: ${filePath}`);
-                response.end();
+                reply.statusCode = 404;
+                reply.writeHeaders();
+                response.end(`Unable to load file: ${filePath}`);
                 return;
             }
+            reply.writeHeaders();
             response.end(data);
         });
+    }
+
+    reply.html = (markup: string, statusCode?: number) => {
+        reply.called = true;
+        reply.headers['Content-Type'] = 'text/html';
+        reply.writeHeaders();
+        response.end(markup);
     }
 
     return reply;

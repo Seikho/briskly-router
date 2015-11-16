@@ -80,8 +80,8 @@ function toReply(response) {
         if (reply.called)
             return logger.error(errors.ReplyOnlyOnce);
         reply.called = true;
-        statusCode = statusCode || 200;
-        response.writeHead(statusCode, { 'Content-Type': 'application/json' });
+        reply.headers['Content-Type'] = 'application/json';
+        reply.writeHeaders();
         try {
             if (typeof data === 'string' || typeof data === 'number')
                 return response.end(data.toString());
@@ -92,19 +92,30 @@ function toReply(response) {
             response.end("Unhandled exception: " + ex.message);
         }
     };
+    reply.headers = {};
+    reply.statusCode = 200;
+    reply.writeHeaders = function () {
+        response.writeHead(reply.statusCode || 200, reply.headers);
+    };
     reply.called = false;
     reply.file = function (filePath) {
         reply.called = true;
         fs.readFile(filePath, 'utf8', function (err, data) {
             if (err) {
-                console.log('404');
-                response.statusCode = 404;
-                response.write("Unable to load file: " + filePath);
-                response.end();
+                reply.statusCode = 404;
+                reply.writeHeaders();
+                response.end("Unable to load file: " + filePath);
                 return;
             }
+            reply.writeHeaders();
             response.end(data);
         });
+    };
+    reply.html = function (markup, statusCode) {
+        reply.called = true;
+        reply.headers['Content-Type'] = 'text/html';
+        reply.writeHeaders();
+        response.end(markup);
     };
     return reply;
 }
