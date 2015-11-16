@@ -2,7 +2,7 @@ import http = require('http');
 
 export class Router {
     constructor(options?: ServerOptions);
-    
+
     port: number;
     host: string;
     handle(message: http.IncomingMessage, response: http.ServerResponse): void;
@@ -44,6 +44,13 @@ export interface Response {
 export interface Reply {
     (data: any, statusCode?: number)
     file: (filePath: string) => void;
+    html: (markup: string) => void;
+    headers: Headers;
+    statusCode: number;
+}
+
+export interface Headers {
+    [index: string]: string;
 }
 
 export interface Session {
