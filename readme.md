@@ -64,14 +64,14 @@ An example route table:
 - `/users` -- Will only `/users`
   
 Allowed parts:
-- **Part**: An exact string. E.g. `/my-home`
-- **Multi-Part** Exact values (prefix and suffix) with parameters. E.g.:
+- **Literal**: An exact string. E.g. `/my-home`
+- **Mixed** Exact values (prefix and suffix) with parameters. E.g.:
  - `/prefix{param}suffix`
  - `/prefix{param: string}suffix`
  - `/prefix{param: number}suffix`
-- **Parameters**:
+- **Parameter**:
  - `{myparam}`: E.g. `/{myparams}`
-- **Typed Parameters**:
+- **Typed Parameter**:
  - `string`: `/{someWord: string}`
  - `number`: `/{anumber: number}`
  - `array`: `/{myArray: array}`
@@ -208,6 +208,7 @@ interface Reply {
  - ~~`/scripts/{name: string}.js`~~
  - ~~`/prefix-{param}-suffix`~~
 - Create API for middleware
+- Add parameter name for wildcard. E.g. `/{...myparam}`
 
 ### License
 MIT

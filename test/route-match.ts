@@ -9,7 +9,7 @@ describe('route part match tests', () => {
 
     describe('Part tests', () => {
         it('will match on Part', () => {
-            compare('/abcd', '/abcd', Match.Part);
+            compare('/abcd', '/abcd', Match.Literal);
         });
 
         it('will not match on Part when parts are dissimilar', () => {
@@ -35,19 +35,19 @@ describe('route part match tests', () => {
 
     describe('Multi tests', () => {
         it('will match when parameter names are equal', () => {
-            compare('/pre{param}post', '/pre{param}post', Match.Multi);
+            compare('/pre{param}post', '/pre{param}post', Match.Mixed);
         });
 
         it('will match when parameter names differ', () => {
-            compare('/pre{param}post', '/pre{anotherParam}post', Match.Multi);
+            compare('/pre{param}post', '/pre{anotherParam}post', Match.Mixed);
         });
 
         it('will match when only prefix is present', () => {
-            compare('/pre{param}', '/pre{anotherParam}', Match.Multi);
+            compare('/pre{param}', '/pre{anotherParam}', Match.Mixed);
         });
 
         it('will match when only suffix is present', () => {
-            compare('/{param}post', '/{anotherParam}post', Match.Multi);
+            compare('/{param}post', '/{anotherParam}post', Match.Mixed);
         });
 
         it('will not match prefix is on left and suffix is on right', () => {
@@ -101,9 +101,9 @@ function compare(left: string, right: string, expected: Match, index?: number) {
 
 function matchString(match: Match) {
     switch (match) {
-        case Match.Multi:
+        case Match.Mixed:
             return 'Multi';
-        case Match.Part:
+        case Match.Literal:
             return 'Part';
         case Match.Type:
             return 'Type'

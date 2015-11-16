@@ -8,7 +8,7 @@ describe('request/part comparison tests', function () {
         it('will match route part with request part', function () {
             var req = request('/a-route');
             var rt = route('/a-route');
-            testMatch(req[0], rt[0], 0 /* Part */);
+            testMatch(req[0], rt[0], 0 /* Literal */);
         });
         it('will not match route part with misspelt request part', function () {
             var req = request('/b-route');
@@ -128,17 +128,17 @@ describe('request/part comparison tests', function () {
         it('will match a route multi (prefix and suffix) with request part', function () {
             var rt = route('/pre{param}post');
             var req = request('/preSOMEWORDSpost');
-            testMatch(req[0], rt[0], 5 /* Multi */);
+            testMatch(req[0], rt[0], 5 /* Mixed */);
         });
         it('will match a route multi (prefix only) with request part', function () {
             var rt = route('/pre{param: number}');
             var req = request('/pre1234');
-            testMatch(req[0], rt[0], 5 /* Multi */);
+            testMatch(req[0], rt[0], 5 /* Mixed */);
         });
         it('will match a route multi (suffix only) with request part', function () {
             var rt = route('/{param: number}post-word');
             var req = request('/1234post-word');
-            testMatch(req[0], rt[0], 5 /* Multi */);
+            testMatch(req[0], rt[0], 5 /* Mixed */);
         });
         it('will not match a route multi with a request part where prefix is not the same', function () {
             var rt = route('/pre{param}post');
@@ -163,7 +163,7 @@ function testMatch(reqPart, routePart, expected) {
 }
 function matchString(match) {
     switch (match) {
-        case 0 /* Part */:
+        case 0 /* Literal */:
             return 'Part';
         case 1 /* Type */:
             return 'Type';

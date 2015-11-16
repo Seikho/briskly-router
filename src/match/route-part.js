@@ -6,7 +6,7 @@ function match(left, right) {
         return 4 /* Wildcard */;
     if (isBoth('cast', null))
         return left.part === right.part
-            ? 0 /* Part */
+            ? 0 /* Literal */
             : 3 /* None */;
     if (isBoth(['prefix', 'suffix'], null))
         return left.cast === right.cast
@@ -18,7 +18,7 @@ function match(left, right) {
     var pfx = left.prefix === right.prefix;
     var sfx = left.suffix === right.suffix;
     return pfx && sfx
-        ? 5 /* Multi */
+        ? 5 /* Mixed */
         : 3 /* None */;
 }
 function isEqual(part) {
