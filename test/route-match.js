@@ -5,7 +5,7 @@ var expect = chai.expect;
 describe('route part match tests', function () {
     describe('Part tests', function () {
         it('will match on Part', function () {
-            compare('/abcd', '/abcd', 0 /* Part */);
+            compare('/abcd', '/abcd', 0 /* Literal */);
         });
         it('will not match on Part when parts are dissimilar', function () {
             compare('/abcd', '/abcdef', 3 /* None */);
@@ -81,7 +81,7 @@ function matchString(match) {
     switch (match) {
         case 5 /* Multi */:
             return 'Multi';
-        case 0 /* Part */:
+        case 0 /* Literal */:
             return 'Part';
         case 1 /* Type */:
             return 'Type';

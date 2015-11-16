@@ -7,7 +7,7 @@ function isMatch(request: Types.RequestPart, route: Types.RoutePart) {
 
     if (route.type === 'route')
         return request.part === route.part
-            ? Match.Part
+            ? Match.Literal
             : Match.None;
 
     if (route.type === 'multi') {

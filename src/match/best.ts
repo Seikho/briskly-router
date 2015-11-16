@@ -70,7 +70,7 @@ function getExactPathMatch(path: string, routes: Types.Route[]) {
 }
 
 var matchPriority = [
-    Match.Part,
+    Match.Literal,
     Match.Multi,
     Match.Type,
     Match.Any,

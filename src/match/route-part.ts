@@ -12,7 +12,7 @@ function match(left: Types.RoutePart, right: Types.RoutePart): Match {
 
     if (isBoth('cast', null))
         return left.part === right.part
-            ? Match.Part
+            ? Match.Literal
             : Match.None;
 
     if (isBoth(['prefix', 'suffix'], null))

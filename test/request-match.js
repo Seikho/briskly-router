@@ -8,7 +8,7 @@ describe('request/part comparison tests', function () {
         it('will match route part with request part', function () {
             var req = request('/a-route');
             var rt = route('/a-route');
-            testMatch(req[0], rt[0], 0 /* Part */);
+            testMatch(req[0], rt[0], 0 /* Literal */);
         });
         it('will not match route part with misspelt request part', function () {
             var req = request('/b-route');
@@ -163,7 +163,7 @@ function testMatch(reqPart, routePart, expected) {
 }
 function matchString(match) {
     switch (match) {
-        case 0 /* Part */:
+        case 0 /* Literal */:
             return 'Part';
         case 1 /* Type */:
             return 'Type';

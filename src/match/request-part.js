@@ -3,7 +3,7 @@ function isMatch(request, route) {
         return null;
     if (route.type === 'route')
         return request.part === route.part
-            ? 0 /* Part */
+            ? 0 /* Literal */
             : 3 /* None */;
     if (route.type === 'multi') {
         var pfx = (route.prefix || '');

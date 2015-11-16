@@ -12,7 +12,7 @@ describe('request/part comparison tests', () => {
         it('will match route part with request part', () => {
             var req = request('/a-route');
             var rt = route('/a-route');
-            testMatch(req[0], rt[0], Match.Part);
+            testMatch(req[0], rt[0], Match.Literal);
         });
 
         it('will not match route part with misspelt request part', () => {
@@ -199,7 +199,7 @@ function testMatch(reqPart: Types.RequestPart, routePart: Types.RoutePart, expec
 
 function matchString(match: Match) {
     switch (match) {
-        case Match.Part:
+        case Match.Literal:
             return 'Part';
         case Match.Type:
             return 'Type';

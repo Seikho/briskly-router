@@ -6,7 +6,7 @@ function match(left, right) {
         return 4 /* Wildcard */;
     if (isBoth('cast', null))
         return left.part === right.part
-            ? 0 /* Part */
+            ? 0 /* Literal */
             : 3 /* None */;
     if (isBoth(['prefix', 'suffix'], null))
         return left.cast === right.cast

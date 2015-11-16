@@ -9,7 +9,7 @@ describe('route part match tests', () => {
 
     describe('Part tests', () => {
         it('will match on Part', () => {
-            compare('/abcd', '/abcd', Match.Part);
+            compare('/abcd', '/abcd', Match.Literal);
         });
 
         it('will not match on Part when parts are dissimilar', () => {
@@ -103,7 +103,7 @@ function matchString(match: Match) {
     switch (match) {
         case Match.Multi:
             return 'Multi';
-        case Match.Part:
+        case Match.Literal:
             return 'Part';
         case Match.Type:
             return 'Type'
