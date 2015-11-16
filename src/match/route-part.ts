@@ -28,7 +28,7 @@ function match(left: Types.RoutePart, right: Types.RoutePart): Match {
     var sfx: boolean = left.suffix === right.suffix;
 
     return pfx && sfx
-        ? Match.Multi
+        ? Match.Mixed
         : Match.None;
 }
 

@@ -128,17 +128,17 @@ describe('request/part comparison tests', function () {
         it('will match a route multi (prefix and suffix) with request part', function () {
             var rt = route('/pre{param}post');
             var req = request('/preSOMEWORDSpost');
-            testMatch(req[0], rt[0], 5 /* Multi */);
+            testMatch(req[0], rt[0], 5 /* Mixed */);
         });
         it('will match a route multi (prefix only) with request part', function () {
             var rt = route('/pre{param: number}');
             var req = request('/pre1234');
-            testMatch(req[0], rt[0], 5 /* Multi */);
+            testMatch(req[0], rt[0], 5 /* Mixed */);
         });
         it('will match a route multi (suffix only) with request part', function () {
             var rt = route('/{param: number}post-word');
             var req = request('/1234post-word');
-            testMatch(req[0], rt[0], 5 /* Multi */);
+            testMatch(req[0], rt[0], 5 /* Mixed */);
         });
         it('will not match a route multi with a request part where prefix is not the same', function () {
             var rt = route('/pre{param}post');

@@ -18,7 +18,7 @@ function match(left, right) {
     var pfx = left.prefix === right.prefix;
     var sfx = left.suffix === right.suffix;
     return pfx && sfx
-        ? 5 /* Multi */
+        ? 5 /* Mixed */
         : 3 /* None */;
 }
 function isEqual(part) {

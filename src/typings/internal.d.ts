@@ -5,6 +5,6 @@ declare namespace BR {
         Any = 2,
         None = 3,
         Wildcard = 4,
-        Multi = 5
+        Mixed = 5
     }
 }

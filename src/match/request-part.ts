@@ -17,7 +17,7 @@ function isMatch(request: Types.RequestPart, route: Types.RoutePart) {
         var suffixMatch = route.suffix == null || request.part.slice(-sfx.length) === sfx;
 
         return prefixMatch && suffixMatch
-            ? Match.Multi
+            ? Match.Mixed
             : Match.None;
     }
 

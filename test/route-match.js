@@ -26,16 +26,16 @@ describe('route part match tests', function () {
     });
     describe('Multi tests', function () {
         it('will match when parameter names are equal', function () {
-            compare('/pre{param}post', '/pre{param}post', 5 /* Multi */);
+            compare('/pre{param}post', '/pre{param}post', 5 /* Mixed */);
         });
         it('will match when parameter names differ', function () {
-            compare('/pre{param}post', '/pre{anotherParam}post', 5 /* Multi */);
+            compare('/pre{param}post', '/pre{anotherParam}post', 5 /* Mixed */);
         });
         it('will match when only prefix is present', function () {
-            compare('/pre{param}', '/pre{anotherParam}', 5 /* Multi */);
+            compare('/pre{param}', '/pre{anotherParam}', 5 /* Mixed */);
         });
         it('will match when only suffix is present', function () {
-            compare('/{param}post', '/{anotherParam}post', 5 /* Multi */);
+            compare('/{param}post', '/{anotherParam}post', 5 /* Mixed */);
         });
         it('will not match prefix is on left and suffix is on right', function () {
             compare('/pre{param}', '/{param}post', 3 /* None */);
@@ -79,7 +79,7 @@ function compare(left, right, expected, index) {
 }
 function matchString(match) {
     switch (match) {
-        case 5 /* Multi */:
+        case 5 /* Mixed */:
             return 'Multi';
         case 0 /* Literal */:
             return 'Part';

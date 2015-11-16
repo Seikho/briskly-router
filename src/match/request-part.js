@@ -11,7 +11,7 @@ function isMatch(request, route) {
         var prefixMatch = route.prefix == null || request.part.slice(0, pfx.length) === pfx;
         var suffixMatch = route.suffix == null || request.part.slice(-sfx.length) === sfx;
         return prefixMatch && suffixMatch
-            ? 5 /* Multi */
+            ? 5 /* Mixed */
             : 3 /* None */;
     }
     if (route.type === 'wildcard')
