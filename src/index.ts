@@ -14,45 +14,46 @@ export class Router {
 
     routes: Types.Route[] = [];
     server = createServer(this.routes);
-    port: number = 2189;    
+    port: number = 2189;
     host: string = null;
-    
+
     handle(message: http.IncomingMessage, response: http.ServerResponse) {
         handler(message, response, this.routes);
     }
 
     start(callback?: (err?) => void) {
-        var p = new Promise<void>((resolve, reject) => {
+        var p = Promise.defer();
 
-            var promiseCb = (err?) => {
-                if (err) reject(err);
-                else resolve(void 0);
+        var promiseCb = (err?) => {
+            if (err) p.reject(err);
+            else p.resolve(void 0);
 
-                if (callback) callback(err);
-            }
-            this.server.listen(this.port, this.host, promiseCb);
-        });
+            if (callback) callback(err);
+        }
+
+        this.server.listen(this.port, this.host, promiseCb);
+
         return p;
     };
 
     stop(callback?: () => void) {
-        var p = new Promise<void>(resolve => {
+        var p = Promise.defer();
 
-            var promiseCb = () => {
-                resolve(void 0);
-                if (callback) callback();
-            }
-            this.server.close(promiseCb);
-        });
+        var promiseCb = () => {
+            p.resolve(void 0);
+            if (callback) callback();
+        }
+        
+        this.server.close(promiseCb);
         return p;
     }
-    
+
     connection(options?: Types.ServerOptions) {
         if (!options) return;
         if (options.host) this.host = options.host;
         if (options.port) this.port = options.port;
     }
-    
+
     route(options: Types.RouteOptions) {
         route(options, this.routes);
     }

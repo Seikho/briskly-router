@@ -15,18 +15,16 @@ var Router = (function () {
         handler(message, response, this.routes);
     };
     Router.prototype.start = function (callback) {
-        var _this = this;
-        var p = new Promise(function (resolve, reject) {
-            var promiseCb = function (err) {
-                if (err)
-                    reject(err);
-                else
-                    resolve(void 0);
-                if (callback)
-                    callback(err);
-            };
-            _this.server.listen(_this.port, _this.host, promiseCb);
-        });
+        var p = Promise.defer();
+        var promiseCb = function (err) {
+            if (err)
+                p.reject(err);
+            else
+                p.resolve(void 0);
+            if (callback)
+                callback(err);
+        };
+        this.server.listen(this.port, this.host, promiseCb);
         return p;
     };
     ;
