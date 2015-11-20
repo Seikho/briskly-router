@@ -1,6 +1,6 @@
 {
   "name": "briskly-router",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "briskly route handler",
   "typings": "src/index.d.ts",
   "main": "src/index",
