@@ -29,15 +29,13 @@ var Router = (function () {
     };
     ;
     Router.prototype.stop = function (callback) {
-        var _this = this;
-        var p = new Promise(function (resolve) {
-            var promiseCb = function () {
-                resolve(void 0);
-                if (callback)
-                    callback();
-            };
-            _this.server.close(promiseCb);
-        });
+        var p = Promise.defer();
+        var promiseCb = function () {
+            p.resolve(void 0);
+            if (callback)
+                callback();
+        };
+        this.server.close(promiseCb);
         return p;
     };
     Router.prototype.connection = function (options) {
