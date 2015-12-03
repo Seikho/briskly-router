@@ -15,28 +15,32 @@ var Router = (function () {
         handler(message, response, this.routes);
     };
     Router.prototype.start = function (callback) {
-        var p = Promise.defer();
-        var promiseCb = function (err) {
-            if (err)
-                p.reject(err);
-            else
-                p.resolve(void 0);
-            if (callback)
-                callback(err);
-        };
-        this.server.listen(this.port, this.host, promiseCb);
-        return p;
+        var _this = this;
+        var promise = new Promise(function (resolve, reject) {
+            var promiseCb = function (err) {
+                if (err)
+                    reject(err);
+                else
+                    resolve(void 0);
+                if (callback)
+                    callback(err);
+            };
+            _this.server.listen(_this.port, _this.host, promiseCb);
+        });
+        return promise;
     };
     ;
     Router.prototype.stop = function (callback) {
-        var p = Promise.defer();
-        var promiseCb = function () {
-            p.resolve(void 0);
-            if (callback)
-                callback();
-        };
-        this.server.close(promiseCb);
-        return p;
+        var _this = this;
+        var promise = new Promise(function (resolve, reject) {
+            var promiseCb = function () {
+                resolve(void 0);
+                if (callback)
+                    callback();
+            };
+            _this.server.close(promiseCb);
+        });
+        return promise;
     };
     Router.prototype.connection = function (options) {
         if (!options)

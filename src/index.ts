@@ -22,30 +22,30 @@ export class Router {
     }
 
     start(callback?: (err?) => void) {
-        var p = Promise.defer();
+        var promise = new Promise((resolve, reject) => {
 
-        var promiseCb = (err?) => {
-            if (err) p.reject(err);
-            else p.resolve(void 0);
+            var promiseCb = (err?) => {
+                if (err) reject(err);
+                else resolve(void 0);
 
-            if (callback) callback(err);
-        }
+                if (callback) callback(err);
+            }
 
-        this.server.listen(this.port, this.host, promiseCb);
+            this.server.listen(this.port, this.host, promiseCb);
+        });
 
-        return p;
+        return promise;
     };
 
     stop(callback?: () => void) {
-        var p = Promise.defer();
-
-        var promiseCb = () => {
-            p.resolve(void 0);
-            if (callback) callback();
-        }
-        
-        this.server.close(promiseCb);
-        return p;
+        var promise = new Promise((resolve, reject) => {
+            var promiseCb = () => {
+                resolve(void 0);
+                if (callback) callback();
+            }
+            this.server.close(promiseCb);            
+        });
+        return promise;
     }
 
     connection(options?: Types.ServerOptions) {
