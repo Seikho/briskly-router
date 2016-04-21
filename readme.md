@@ -12,6 +12,9 @@ A request to `/users/123` will only match the `{id: number}` route.
 A request to `/users/seikho` will only match the `{id: string}` route.  
 Since we have no route that matches an `array` or `object`, `/users/[1,2,3]` will not match either route.
 
+### Building and Contributing
+See [CONTRIBUTING](https://github.com/seikho/briskly-router/blob/master/CONTRIBUTING.md) guide
+
 ### Installation
 ```
 npm install briskly-router --save
