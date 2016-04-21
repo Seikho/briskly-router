@@ -2,10 +2,9 @@ import Types = require('./index.d.ts');
 import connection = require('./connection');
 import route = require('./route');
 import createServer = require('./server');
-import Promise = require('bluebird');
 import http = require('http');
 import handler = require('./server/handler');
-var pkg = require('../package.json');
+const pkg = require('../package.json');
 
 export class Router {
     constructor(options?: Types.ServerOptions) {
