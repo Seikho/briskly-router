@@ -2,3 +2,5 @@ node_modules/
 .git/
 *.log
 *.map
+*.js
+*.map
